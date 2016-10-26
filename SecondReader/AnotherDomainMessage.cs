@@ -2,7 +2,7 @@
 {
     public class AnotherDomainMessage
     {
-        public string Oh { get;  }
+        public string Oh { get; }
         public string Shit { get; }
         public string Waddap { get; }
 

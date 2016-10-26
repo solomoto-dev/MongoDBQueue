@@ -19,7 +19,8 @@ namespace MongoQueueTests
         public void Setup()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300), TimeSpan.FromSeconds(1));
+            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
+                TimeSpan.FromSeconds(1));
             var mongoHelper = new MongoMessagingAgent(messagingConfiguration);
             _publisher = new MongoQueuePublisher(new TopicNameProvider(), mongoHelper, new ConsoleMessagingLogger());
         }
@@ -27,7 +28,8 @@ namespace MongoQueueTests
         [TearDown]
         public void TearDown()
         {
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300), TimeSpan.FromSeconds(1));
+            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
+                TimeSpan.FromSeconds(1));
             var mongoHelper = new MongoMessagingAgent(messagingConfiguration);
             var db = mongoHelper.GetDb();
             db.DropCollection("test_Envelops");
@@ -35,11 +37,12 @@ namespace MongoQueueTests
             db.DropCollection("test2_Envelops");
             ResultHolder.Clear();
             _cancellationTokenSource.Cancel();
-
         }
+
         private MongoMessageListener CreateListener(bool resend = false)
         {
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300), TimeSpan.FromSeconds(1));
+            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
+                TimeSpan.FromSeconds(1));
             var topicNameProvider = new TopicNameProvider();
             var messageTypesCache = new MessageTypesCache(topicNameProvider);
             var messageHandlersCache = new MessageHandlersCache(topicNameProvider);
@@ -57,15 +60,20 @@ namespace MongoQueueTests
                 messageHandlersCache.Register<AnotherTestHandler, AnotherTestMessage>();
             }
             var consoleMessagingLogger = new ConsoleMessagingLogger();
-            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache, new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
-            var unprocessedMessagesResender = new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration, consoleMessagingLogger);
-            return new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger, messageProcessor, unprocessedMessagesResender);
+            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache,
+                new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
+            var unprocessedMessagesResender =
+                new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration,
+                    consoleMessagingLogger);
+            return new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger, messageProcessor,
+                unprocessedMessagesResender);
         }
 
         [Test, RunInApplicationDomain]
         public async Task WhenMessageIsPosted_ApplicationThatIsNotSubscribedToItDoesntGetIt()
         {
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300), TimeSpan.FromSeconds(1));
+            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
+                TimeSpan.FromSeconds(1));
             var topicNameProvider = new TopicNameProvider();
             var messageTypesCache = new MessageTypesCache(topicNameProvider);
             var messageHandlersCache = new MessageHandlersCache(topicNameProvider);
@@ -73,9 +81,13 @@ namespace MongoQueueTests
             messageTypesCache.Register<AnotherTestMessage>();
             messageHandlersCache.Register<AnotherTestHandler, AnotherTestMessage>();
             var consoleMessagingLogger = new ConsoleMessagingLogger();
-            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache, new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
-            var unprocessedMessagesResender = new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration, consoleMessagingLogger);
-            var listener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger, messageProcessor, unprocessedMessagesResender);
+            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache,
+                new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
+            var unprocessedMessagesResender =
+                new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration,
+                    consoleMessagingLogger);
+            var listener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger,
+                messageProcessor, unprocessedMessagesResender);
             await listener.Start("test", _cancellationTokenSource.Token);
             await _publisher.PublishAsync(new TestMessage("id", "name", new TestValueObject("id", "name")));
             Throttle.Assert(() => Assert.True(ResultHolder.Count == 0), TimeSpan.FromSeconds(1));
@@ -109,7 +121,8 @@ namespace MongoQueueTests
         [Test, RunInApplicationDomain]
         public async Task WhenMessageWithSlightlyDifferentStructureButWithSameTopicIsPosted_ItCanbeProcessed()
         {
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300), TimeSpan.FromSeconds(1));
+            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
+                TimeSpan.FromSeconds(1));
             var topicNameProvider = new TestTopicNameProvider();
             var messageTypesCache = new MessageTypesCache(topicNameProvider);
             var messageHandlersCache = new MessageHandlersCache(topicNameProvider);
@@ -117,9 +130,13 @@ namespace MongoQueueTests
             messageTypesCache.Register<SlightlyDifferentTestMessage>();
             messageHandlersCache.Register<SlightlyDifferentTestHandler, SlightlyDifferentTestMessage>();
             var consoleMessagingLogger = new ConsoleMessagingLogger();
-            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache, new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
-            var unprocessedMessagesResender = new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration, consoleMessagingLogger);
-            var listener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger, messageProcessor, unprocessedMessagesResender);
+            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache,
+                new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
+            var unprocessedMessagesResender =
+                new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration,
+                    consoleMessagingLogger);
+            var listener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger,
+                messageProcessor, unprocessedMessagesResender);
             await listener.Start("test", _cancellationTokenSource.Token);
             await _publisher.PublishAsync(new TestMessage("id", "name", new TestValueObject("id", "name")));
             Throttle.Assert(() => Assert.True(ResultHolder.Contains("id")), TimeSpan.FromMilliseconds(2000));

@@ -19,6 +19,7 @@ namespace MongoQueueTests
     {
         private static readonly List<Result> Results = new List<Result>();
         public static int Count => Results.Count;
+
         public static void Add(string key, string result)
         {
             Results.Add(new Result(key, result));

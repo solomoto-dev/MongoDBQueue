@@ -8,9 +8,11 @@ namespace MongoQueueTests
 {
     public class SlightlyDifferentTestHandler : MessageHandlerBase<SlightlyDifferentTestMessage>
     {
-        public override async Task Handle(SlightlyDifferentTestMessage message, bool resend, CancellationToken cancellationToken)
+        public override async Task Handle(SlightlyDifferentTestMessage message, bool resend,
+            CancellationToken cancellationToken)
         {
-            Console.WriteLine($"{GetType().Name} {message.Id} {message.TestValueObject.Id} {message.TestValueObject.SomeDate} {resend}");
+            Console.WriteLine(
+                $"{GetType().Name} {message.Id} {message.TestValueObject.Id} {message.TestValueObject.SomeDate} {resend}");
             ResultHolder.Add(message.Id, message.TestValueObject.Id);
         }
     }

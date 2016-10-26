@@ -8,7 +8,8 @@ namespace MongoQueueTests
 {
     public static class Throttle
     {
-        public static void Verify<T>(Mock<T> mock, Expression<Action<T>> verification, TimeSpan minTimeout = default(TimeSpan), TimeSpan maxTimeout = default(TimeSpan)) where T : class
+        public static void Verify<T>(Mock<T> mock, Expression<Action<T>> verification,
+            TimeSpan minTimeout = default(TimeSpan), TimeSpan maxTimeout = default(TimeSpan)) where T : class
         {
             maxTimeout = maxTimeout == default(TimeSpan) ? TimeSpan.FromSeconds(5) : maxTimeout;
             var cancellationToken = new CancellationTokenSource(maxTimeout).Token;
@@ -32,7 +33,8 @@ namespace MongoQueueTests
             throw new AssertionException("method wasn`t called");
         }
 
-        public static void Assert(Action action, TimeSpan minTimeout = default(TimeSpan), TimeSpan maxTimeout = default(TimeSpan))
+        public static void Assert(Action action, TimeSpan minTimeout = default(TimeSpan),
+            TimeSpan maxTimeout = default(TimeSpan))
         {
             maxTimeout = maxTimeout == default(TimeSpan) ? TimeSpan.FromSeconds(5) : maxTimeout;
             var cancellationToken = new CancellationTokenSource(maxTimeout).Token;

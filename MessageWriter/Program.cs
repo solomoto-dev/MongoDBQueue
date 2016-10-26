@@ -19,16 +19,16 @@ namespace MessageWriter
             var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
                 TimeSpan.FromSeconds(1));
             var mongoHelper = new MongoMessagingAgent(messagingConfiguration);
-            var publisher = new MongoQueuePublisher(new TopicNameProvider(), mongoHelper,new ConsoleMessagingLogger());
+            var publisher = new MongoQueuePublisher(new TopicNameProvider(), mongoHelper, new ConsoleMessagingLogger());
             while (true)
             {
                 try
                 {
                     var rnd = new Random(DateTime.Now.Millisecond);
                     var id = rnd.Next();
-                    if (id % 2 == 0)
+                    if (id%2 == 0)
                     {
-                        if (id % 4 == 0)
+                        if (id%4 == 0)
                         {
                             var message = new DomainMessage(id.ToString(), "exception");
                             await publisher.PublishAsync(message);
@@ -50,7 +50,6 @@ namespace MessageWriter
                     Console.WriteLine(e.ToString());
                     await Task.Delay(500);
                 }
-
             }
         }
     }

@@ -43,7 +43,6 @@ namespace MongoQueue.Core.Read
             await CreateCollectionIfNotExist(collectionName);
 
             AfterInit(appName, cancellationToken);
-
         }
 
         private async void AfterInit(string appName, CancellationToken cancellationToken)
@@ -66,7 +65,8 @@ namespace MongoQueue.Core.Read
                     {
                         if (mongoCommandException.Code == 96)
                         {
-                            _messagingLogger.Error(mongoCommandException, $"{appName} reader processes messages slower than they occur");
+                            _messagingLogger.Error(mongoCommandException,
+                                $"{appName} reader processes messages slower than they occur");
                         }
                         else
                         {
@@ -104,13 +104,18 @@ namespace MongoQueue.Core.Read
                 {
                     foreach (var document in cursor.Current)
                     {
-                        var notReadAndIdQuery = Builders<Envelope>.Filter.And(Builders<Envelope>.Filter.Eq("_id", document.Id), notReadFilter);
-                        var update = Builders<Envelope>.Update.Set(x => x.ReadAt, DateTime.UtcNow).Set(x => x.IsRead, true);
-                        var message = collection.FindOneAndUpdate(notReadAndIdQuery, update, cancellationToken: cancellationToken);
+                        var notReadAndIdQuery =
+                            Builders<Envelope>.Filter.And(Builders<Envelope>.Filter.Eq("_id", document.Id),
+                                notReadFilter);
+                        var update = Builders<Envelope>.Update.Set(x => x.ReadAt, DateTime.UtcNow)
+                            .Set(x => x.IsRead, true);
+                        var message = collection.FindOneAndUpdate(notReadAndIdQuery, update,
+                            cancellationToken: cancellationToken);
                         if (message != null)
                         {
                             var resend = message.OriginalId != ObjectId.Empty.ToString();
-                            _messageProcessor.Process(appName, message.Id, message.Topic, message.Payload, resend, cancellationToken);
+                            _messageProcessor.Process(appName, message.Id, message.Topic, message.Payload, resend,
+                                cancellationToken);
                         }
                     }
                 }
@@ -140,7 +145,7 @@ namespace MongoQueue.Core.Read
         {
             var db = _mongoMessagingAgent.GetDb();
             var colfilter = new BsonDocument("name", collectionName);
-            var collections = await db.ListCollectionsAsync(new ListCollectionsOptions { Filter = colfilter });
+            var collections = await db.ListCollectionsAsync(new ListCollectionsOptions {Filter = colfilter});
             if (!collections.Any())
             {
                 db.CreateCollection(collectionName, new CreateCollectionOptions
@@ -157,10 +162,12 @@ namespace MongoQueue.Core.Read
                     Builders<Envelope>.IndexKeys.Combine(Builders<Envelope>.IndexKeys.Descending(x => x.ReadAt),
                         Builders<Envelope>.IndexKeys.Ascending(x => x.ProcessedAt));
                 var processingStartedAtIndex =
-                    Builders<Envelope>.IndexKeys.Combine(Builders<Envelope>.IndexKeys.Descending(x => x.ProcessingStartedAt),
+                    Builders<Envelope>.IndexKeys.Combine(
+                        Builders<Envelope>.IndexKeys.Descending(x => x.ProcessingStartedAt),
                         Builders<Envelope>.IndexKeys.Ascending(x => x.ProcessedAt));
 
-                var idProcessedAtIndex = Builders<Envelope>.IndexKeys.Combine(Builders<Envelope>.IndexKeys.Descending(x => x.Id),
+                var idProcessedAtIndex =
+                    Builders<Envelope>.IndexKeys.Combine(Builders<Envelope>.IndexKeys.Descending(x => x.Id),
                         Builders<Envelope>.IndexKeys.Ascending(x => x.ProcessedAt));
 
                 await mongoIndexManager.CreateOneAsync(isReadIndex, new CreateIndexOptions
@@ -182,7 +189,6 @@ namespace MongoQueue.Core.Read
                 {
                     Name = nameof(idProcessedAtIndex)
                 });
-
             }
         }
     }

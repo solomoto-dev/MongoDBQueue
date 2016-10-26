@@ -18,14 +18,16 @@ namespace MongoQueue.Core.Read
             IMessageTypesCache messageTypesCache,
             IMessageHandlerFactory messageHandlerFactory,
             IMessagingLogger messagingLogger
-            )
+        )
         {
             _messageHandlersCache = messageHandlersCache;
             _messageTypesCache = messageTypesCache;
             _messageHandlerFactory = messageHandlerFactory;
             _messagingLogger = messagingLogger;
         }
-        public async void Process(string appName, string messageId, string topic, string payload, bool resend, CancellationToken cancellationToken)
+
+        public async void Process(string appName, string messageId, string topic, string payload, bool resend,
+            CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try

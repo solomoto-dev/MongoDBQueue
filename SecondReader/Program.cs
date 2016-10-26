@@ -15,7 +15,8 @@ namespace SecondReader
             {
                 appName = args[0];
             }
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300), TimeSpan.FromSeconds(1));
+            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
+                TimeSpan.FromSeconds(1));
             var topicNameProvider = new TopicNameProvider();
             var messageTypesCache = new MessageTypesCache(topicNameProvider);
             var messageHandlersCache = new MessageHandlersCache(topicNameProvider);
@@ -28,9 +29,13 @@ namespace SecondReader
             messageHandlersCache.Register<DefaultHandler, DomainMessage>();
 
             var consoleMessagingLogger = new ConsoleMessagingLogger();
-            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache, new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
-            var unprocessedMessagesResender = new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration, consoleMessagingLogger);
-            var mongoMessageListener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger, messageProcessor, unprocessedMessagesResender);
+            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache,
+                new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
+            var unprocessedMessagesResender =
+                new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration,
+                    consoleMessagingLogger);
+            var mongoMessageListener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger,
+                messageProcessor, unprocessedMessagesResender);
             mongoMessageListener.Start(appName, CancellationToken.None).Wait();
             Console.WriteLine($"started listener {appName}");
             Console.ReadLine();

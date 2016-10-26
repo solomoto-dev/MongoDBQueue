@@ -16,7 +16,7 @@ namespace MongoQueue.Core.Write
             ITopicNameProvider topicNameProvider,
             MongoMessagingAgent mongoMessagingAgent,
             IMessagingLogger messagingLogger
-            )
+        )
         {
             _topicNameProvider = topicNameProvider;
             _mongoMessagingAgent = mongoMessagingAgent;
@@ -28,7 +28,8 @@ namespace MongoQueue.Core.Write
             var sw = Stopwatch.StartNew();
             var subscribersCollection = _mongoMessagingAgent.GetCollection<Subscriber>();
             var topic = _topicNameProvider.Get<TMessage>();
-            var subscribers = subscribersCollection.Find(Builders<Subscriber>.Filter.All(x => x.Topics, new[] { topic })).ToList();
+            var subscribers =
+                subscribersCollection.Find(Builders<Subscriber>.Filter.All(x => x.Topics, new[] {topic})).ToList();
 
             if (subscribers != null)
             {
@@ -51,7 +52,11 @@ namespace MongoQueue.Core.Write
             var sw = Stopwatch.StartNew();
             var subscribersCollection = _mongoMessagingAgent.GetCollection<Subscriber>();
             var topic = _topicNameProvider.Get<TMessage>();
-            var subscribers = await (await subscribersCollection.FindAsync(Builders<Subscriber>.Filter.All(x => x.Topics, new[] { topic }))).ToListAsync();
+            var subscribers =
+                await
+                    (await
+                            subscribersCollection.FindAsync(Builders<Subscriber>.Filter.All(x => x.Topics, new[] {topic})))
+                        .ToListAsync();
 
             if (subscribers != null)
             {

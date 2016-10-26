@@ -10,11 +10,12 @@ namespace MongoQueue.Core.Common
 
         public MongoMessagingAgent(
             IMessagingConfiguration messagingConfiguration
-            )
+        )
         {
             _messagingConfiguration = messagingConfiguration;
             _dbName = MongoUrl.Create(_messagingConfiguration.ConnectionString).DatabaseName;
         }
+
         public IMongoDatabase GetDb()
         {
             var mongoUrl = MongoUrl.Create(_messagingConfiguration.ConnectionString);
@@ -45,5 +46,4 @@ namespace MongoQueue.Core.Common
             return $"{appName}_Envelops";
         }
     }
-
 }

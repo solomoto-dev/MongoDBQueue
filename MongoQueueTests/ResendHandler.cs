@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoQueue.Core;
 using MongoQueue.Core.Read;
 
 namespace MongoQueueTests
@@ -13,7 +12,7 @@ namespace MongoQueueTests
             Console.WriteLine($"{GetType().Name} {message.Id} {message.Name}  {resend}");
             if (resend)
             {
-                ResultHolder.Add(message.Id+"resend", message.Name);
+                ResultHolder.Add(message.Id + "resend", message.Name);
             }
             else
             {
