@@ -1,5 +1,5 @@
-﻿using MongoQueueShared;
-using MongoQueueShared.Common;
+﻿using MongoQueue.Core;
+using MongoQueue.Core.Common;
 
 namespace MongoQueueTests
 {

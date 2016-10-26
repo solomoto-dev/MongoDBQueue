@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MongoQueueShared;
-using MongoQueueShared.Common;
-using MongoQueueShared.Read;
-using MongoQueueShared.Write;
+using MongoQueue.Core;
+using MongoQueue.Core.Common;
+using MongoQueue.Core.Read;
+using MongoQueue.Core.Write;
 
 namespace MessageWriter
 {

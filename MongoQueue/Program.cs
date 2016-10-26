@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using MongoQueueShared.Common;
-using MongoQueueShared.Read;
+using MongoQueue.Core.Common;
+using MongoQueue.Core.Read;
 
 namespace MongoQueueReader
 {
@@ -27,7 +27,8 @@ namespace MongoQueueReader
             messageHandlersCache.Register<DefaultHandler, DomainMessage>();
             var consoleMessagingLogger = new ConsoleMessagingLogger();
             var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache, new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
-            var mongoMessageListener = new MongoMessageListener(messageTypesCache, mongoHelper, messagingConfiguration, consoleMessagingLogger, messageProcessor);
+            var unprocessedMessagesResender = new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration, consoleMessagingLogger);
+            var mongoMessageListener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger, messageProcessor, unprocessedMessagesResender);
             mongoMessageListener.Start(appName, CancellationToken.None).Wait();
             Console.WriteLine($"started listener {appName}");
             Console.ReadLine();

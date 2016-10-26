@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoQueueShared.Read;
+using MongoQueue.Core.Read;
 
 namespace SecondReader
 {
@@ -13,9 +13,7 @@ namespace SecondReader
             {
                 if (resend)
                 {
-                    //Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write($"processing resend {message.Id}");
-                    //Console.ForegroundColor = ConsoleColor.White;
                     return;
                 }
 

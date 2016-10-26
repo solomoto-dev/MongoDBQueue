@@ -69,9 +69,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MongoQueueShared\MongoQueueShared.csproj">
+    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
-      <Name>MongoQueueShared</Name>
+      <Name>MongoQueue.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

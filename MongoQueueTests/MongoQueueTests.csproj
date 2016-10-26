@@ -84,14 +84,14 @@
     <Compile Include="Throttle.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MongoQueueShared\MongoQueueShared.csproj">
-      <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
-      <Name>MongoQueueShared</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
+      <Project>{6784C9FF-07BC-42AF-B261-2DEA955B6C82}</Project>
+      <Name>MongoQueue.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

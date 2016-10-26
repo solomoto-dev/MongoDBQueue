@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace MongoQueue.Core.Read
+{
+    public class ActivatorMessageHandlerFactory : IMessageHandlerFactory
+    {
+        public IHandler Create(Type handlerType)
+        {
+            return (IHandler) Activator.CreateInstance(handlerType);
+        }
+    }
+}
