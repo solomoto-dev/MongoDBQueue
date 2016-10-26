@@ -90,7 +90,9 @@
     <Compile Include="Read\UnprocessedMessagesResender.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Nuget\MongoQueue.Core.nuspec" />
+    <Content Include="Nuget\MongoQueue.Core.nuspec">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
