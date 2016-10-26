@@ -57,6 +57,7 @@ namespace MongoQueue.Core.Read
                 var collection = _mongoMessagingAgent.GetEnvelops(appName);
                 var notProcessedFilter = Builders<Envelope>.Filter.And(
                     Builders<Envelope>.Filter.Lt(x => x.ReadAt, DateTime.UtcNow - _messagingConfiguration.ResendTreshold),
+                    Builders<Envelope>.Filter.Eq(x => x.IsRead, true),
                     Builders<Envelope>.Filter.Eq(x => x.IsProcessed, false));
 
                 var notProcessed =
