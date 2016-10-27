@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MongoQueue.Core;
-using MongoQueue.Core.Common;
-using MongoQueue.Core.Read;
-using MongoQueue.Core.Write;
+using Autofac;
+using MongoQueue;
+using MongoQueue.Autofac;
+using MongoQueue.Core.LogicAbstractions;
 
 namespace MessageWriter
 {
     class Program
     {
+
         static void Main()
         {
             DoStuff().Wait();
@@ -16,32 +17,31 @@ namespace MessageWriter
 
         static async Task DoStuff()
         {
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
-                TimeSpan.FromSeconds(1));
-            var mongoHelper = new MongoMessagingAgent(messagingConfiguration);
-            var publisher = new MongoQueuePublisher(new TopicNameProvider(), mongoHelper, new ConsoleMessagingLogger());
+            AutofacComposition.Compose(new MessagingDependencyRegistrator());
+            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
             while (true)
             {
                 try
                 {
                     var rnd = new Random(DateTime.Now.Millisecond);
                     var id = rnd.Next();
-                    if (id%2 == 0)
+                    var guid = Guid.NewGuid().ToString();
+                    if (id % 2 == 0)
                     {
-                        if (id%4 == 0)
+                        if (id % 4 == 0)
                         {
-                            var message = new DomainMessage(id.ToString(), "exception");
+                            var message = new DomainMessage(guid, "exception");
                             await publisher.PublishAsync(message);
                         }
                         else
                         {
-                            var message = new DomainMessage(id.ToString(), rnd.Next().ToString());
+                            var message = new DomainMessage(guid, rnd.Next().ToString());
                             await publisher.PublishAsync(message);
                         }
                     }
                     else
                     {
-                        var message = new AnotherDomainMessage(id.ToString(), rnd.Next().ToString(), "waddap indeed");
+                        var message = new AnotherDomainMessage(guid, rnd.Next().ToString(), "waddap indeed");
                         await publisher.PublishAsync(message);
                     }
                 }

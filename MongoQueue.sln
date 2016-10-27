@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueReader", "MongoQueue\MongoQueueReader.csproj", "{41720D3F-CC32-4B10-877E-8EF51EF23155}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageWriter", "MessageWriter\MessageWriter.csproj", "{553DEC98-04DF-4030-A455-E9BEBFEA17B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondReader", "SecondReader\SecondReader.csproj", "{2FFED735-4130-46ED-A8A2-BFA7C817489D}"
@@ -13,16 +11,32 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueTests", "MongoQue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueue.Core", "MongoQueue.Core\MongoQueue.Core.csproj", "{6784C9FF-07BC-42AF-B261-2DEA955B6C82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueReader", "FirstReader\MongoQueueReader.csproj", "{41720D3F-CC32-4B10-877E-8EF51EF23155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueue", "MongoQueue\MongoQueue.csproj", "{F21221D6-08E3-4168-97CC-579F4AF96EC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueue.Legacy", "MongoQueue.Legacy\MongoQueue.Legacy.csproj", "{0F118DCF-48E5-42B5-AC8C-15160AD70611}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{BD669A13-EACB-4D36-95F2-1227779F55CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LegacyDemo", "LegacyDemo", "{5EB42D76-FB02-44BE-A980-0E243474CF02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{48904519-E50B-4ABB-B786-57D78AF4A8A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueue.Autofac", "MongoQueue.Autofac\MongoQueue.Autofac.csproj", "{3B76649E-7EE0-4E14-B982-D3DE96BCA833}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyWriter", "LegacyWriter\LegacyWriter.csproj", "{466A38DC-6278-4311-8024-A78D747D2E09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyReader", "LegacyReader\LegacyReader.csproj", "{E7F3522C-024E-4A69-AF24-11E59CCE44FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondLegacyReader", "SecondLegacyReader\SecondLegacyReader.csproj", "{67E655A1-5D64-456B-B8BD-836E40E511E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Release|Any CPU.Build.0 = Release|Any CPU
 		{553DEC98-04DF-4030-A455-E9BEBFEA17B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{553DEC98-04DF-4030-A455-E9BEBFEA17B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{553DEC98-04DF-4030-A455-E9BEBFEA17B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,8 +53,45 @@ Global
 		{6784C9FF-07BC-42AF-B261-2DEA955B6C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6784C9FF-07BC-42AF-B261-2DEA955B6C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6784C9FF-07BC-42AF-B261-2DEA955B6C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41720D3F-CC32-4B10-877E-8EF51EF23155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F21221D6-08E3-4168-97CC-579F4AF96EC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21221D6-08E3-4168-97CC-579F4AF96EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21221D6-08E3-4168-97CC-579F4AF96EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21221D6-08E3-4168-97CC-579F4AF96EC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F118DCF-48E5-42B5-AC8C-15160AD70611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F118DCF-48E5-42B5-AC8C-15160AD70611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F118DCF-48E5-42B5-AC8C-15160AD70611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F118DCF-48E5-42B5-AC8C-15160AD70611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B76649E-7EE0-4E14-B982-D3DE96BCA833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B76649E-7EE0-4E14-B982-D3DE96BCA833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B76649E-7EE0-4E14-B982-D3DE96BCA833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B76649E-7EE0-4E14-B982-D3DE96BCA833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{466A38DC-6278-4311-8024-A78D747D2E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{466A38DC-6278-4311-8024-A78D747D2E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{466A38DC-6278-4311-8024-A78D747D2E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{466A38DC-6278-4311-8024-A78D747D2E09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F3522C-024E-4A69-AF24-11E59CCE44FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F3522C-024E-4A69-AF24-11E59CCE44FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F3522C-024E-4A69-AF24-11E59CCE44FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F3522C-024E-4A69-AF24-11E59CCE44FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67E655A1-5D64-456B-B8BD-836E40E511E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67E655A1-5D64-456B-B8BD-836E40E511E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67E655A1-5D64-456B-B8BD-836E40E511E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67E655A1-5D64-456B-B8BD-836E40E511E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{553DEC98-04DF-4030-A455-E9BEBFEA17B8} = {BD669A13-EACB-4D36-95F2-1227779F55CE}
+		{2FFED735-4130-46ED-A8A2-BFA7C817489D} = {BD669A13-EACB-4D36-95F2-1227779F55CE}
+		{DD484D6E-34A1-49CF-9CEF-63B9AA01D220} = {48904519-E50B-4ABB-B786-57D78AF4A8A0}
+		{41720D3F-CC32-4B10-877E-8EF51EF23155} = {BD669A13-EACB-4D36-95F2-1227779F55CE}
+		{466A38DC-6278-4311-8024-A78D747D2E09} = {5EB42D76-FB02-44BE-A980-0E243474CF02}
+		{E7F3522C-024E-4A69-AF24-11E59CCE44FE} = {5EB42D76-FB02-44BE-A980-0E243474CF02}
+		{67E655A1-5D64-456B-B8BD-836E40E511E1} = {5EB42D76-FB02-44BE-A980-0E243474CF02}
 	EndGlobalSection
 EndGlobal

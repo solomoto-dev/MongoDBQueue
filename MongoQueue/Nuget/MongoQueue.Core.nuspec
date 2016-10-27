@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MongoQueue</id>
+    <version>1.0.0</version>
+    <title>MongoDB based message queue</title>
+    <authors>Vadim Zhogalsky</authors>
+    <owners>SOLOMOTO</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Light abstraction on top of MongoDB to provide basic message queue functionality.</description>
+    <summary>Light abstraction on top of MongoDB to provide basic message queue functionality.</summary>
+    <copyright>Copyright © SOLOMOTO</copyright>
+    <tags>Solomoto MongoDB queue</tags>
+    <dependencies>
+      <dependency id="MongoDB.Driver" version="2.3.0" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+    </dependencies>
+  </metadata>
+  <files>
+  </files>
+</package>

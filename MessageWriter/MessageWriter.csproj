@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.3.0\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
@@ -70,9 +74,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
+      <Project>{3b76649e-7ee0-4e14-b982-d3de96bca833}</Project>
+      <Name>MongoQueue.Autofac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
-      <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
+      <Project>{6784C9FF-07BC-42AF-B261-2DEA955B6C82}</Project>
       <Name>MongoQueue.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MongoQueue\MongoQueue.csproj">
+      <Project>{f21221d6-08e3-4168-97cc-579f4af96ec4}</Project>
+      <Name>MongoQueue</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

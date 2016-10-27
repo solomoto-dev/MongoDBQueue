@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,11 +57,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
+      <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
+      <Name>MongoQueue.Autofac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
       <Name>MongoQueue.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MongoQueue\MongoQueue.csproj">
+      <Project>{F21221D6-08E3-4168-97CC-579F4AF96EC4}</Project>
+      <Name>MongoQueue</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

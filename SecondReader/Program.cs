@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using MongoQueue.Core.Common;
-using MongoQueue.Core.Read;
+using Autofac;
+using MongoQueue;
+using MongoQueue.Autofac;
+using MongoQueue.Core.Logic;
+using MongoQueue.Core.LogicAbstractions;
 
 namespace SecondReader
 {
@@ -15,27 +18,18 @@ namespace SecondReader
             {
                 appName = args[0];
             }
-            var messagingConfiguration = new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
-                TimeSpan.FromSeconds(1));
-            var topicNameProvider = new TopicNameProvider();
-            var messageTypesCache = new MessageTypesCache(topicNameProvider);
-            var messageHandlersCache = new MessageHandlersCache(topicNameProvider);
-            var mongoHelper = new MongoMessagingAgent(messagingConfiguration);
 
-            messageTypesCache.Register<DomainMessage>();
-            messageTypesCache.Register<AnotherDomainMessage>();
+            AutofacComposition.Compose(new MessagingDependencyRegistrator(), b =>
+            {
+                b.RegisterType<DefaultHandler>();
+                b.RegisterType<AnotherDefaultHandler>();
+            });
 
-            messageHandlersCache.Register<AnotherDefaultHandler, AnotherDomainMessage>();
-            messageHandlersCache.Register<DefaultHandler, DomainMessage>();
+            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            subscriber.Subscribe<DefaultHandler, DomainMessage>();
+            subscriber.Subscribe<AnotherDefaultHandler, AnotherDomainMessage>();
 
-            var consoleMessagingLogger = new ConsoleMessagingLogger();
-            var messageProcessor = new MessageProcessor(messageHandlersCache, messageTypesCache,
-                new ActivatorMessageHandlerFactory(), consoleMessagingLogger);
-            var unprocessedMessagesResender =
-                new UnprocessedMessagesResender(new MongoMessagingAgent(messagingConfiguration), messagingConfiguration,
-                    consoleMessagingLogger);
-            var mongoMessageListener = new MongoMessageListener(messageTypesCache, mongoHelper, consoleMessagingLogger,
-                messageProcessor, unprocessedMessagesResender);
+            var mongoMessageListener = AutofacComposition.Container.Resolve<MessageListener>();
             mongoMessageListener.Start(appName, CancellationToken.None).Wait();
             Console.WriteLine($"started listener {appName}");
             Console.ReadLine();

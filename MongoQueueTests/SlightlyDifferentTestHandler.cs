@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MongoQueue.Core;
-using MongoQueue.Core.Read;
 
 namespace MongoQueueTests
 {

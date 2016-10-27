@@ -2,9 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoQueue.Core.Common;
-using MongoQueue.Core.Read;
-using MongoQueue.Core.Write;
+using MongoQueue.Core;
 using NUnit.Framework;
 
 namespace MongoQueueTests
