@@ -26,7 +26,8 @@ namespace MongoQueue.Legacy
             {
                 Query = query,
                 Update = update,
-                VersionReturned = FindAndModifyDocumentVersion.Modified
+                VersionReturned = FindAndModifyDocumentVersion.Modified,
+                Upsert = false,
             });
             return result.ModifiedDocument != null;
         }
@@ -39,7 +40,8 @@ namespace MongoQueue.Legacy
             collection.FindAndModify(new FindAndModifyArgs
             {
                 Update = update,
-                Query = query
+                Query = query,
+                Upsert = false,
             });
         }
 
@@ -53,7 +55,8 @@ namespace MongoQueue.Legacy
             {
                 Update = update,
                 Query = notReadAndIdQuery,
-                VersionReturned = FindAndModifyDocumentVersion.Modified
+                VersionReturned = FindAndModifyDocumentVersion.Modified,
+                Upsert = false
             });
             return result.GetModifiedDocumentAs<Envelope>();
         }

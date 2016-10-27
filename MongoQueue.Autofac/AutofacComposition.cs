@@ -28,8 +28,6 @@ namespace MongoQueue.Autofac
             registrator.RegisterDefault(registerAbstract, registerClass);
 
             builder.RegisterType<AutofacHandlerFactory>().As<IMessageHandlerFactory>();
-            builder.RegisterInstance(new DefaultMessagingConfiguration(null, TimeSpan.FromMilliseconds(300),
-                TimeSpan.FromSeconds(1))).As<IMessagingConfiguration>();
 
             if (overrides != null)
             {

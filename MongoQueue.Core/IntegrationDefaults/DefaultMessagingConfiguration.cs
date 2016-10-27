@@ -11,7 +11,7 @@ namespace MongoQueue.Core.IntegrationDefaults
 
         public DefaultMessagingConfiguration(string connectionString, TimeSpan resendInterval, TimeSpan resendTreshold)
         {
-            ConnectionString = connectionString ?? "mongodb://localhost:27017/dev-queue";
+            ConnectionString = connectionString;
             ResendInterval = resendInterval;
             ResendTreshold = resendTreshold;
         }

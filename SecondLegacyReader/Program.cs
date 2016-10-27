@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using Autofac;
 using MongoQueue.Autofac;
+using MongoQueue.Core.IntegrationAbstractions;
+using MongoQueue.Core.IntegrationDefaults;
 using MongoQueue.Core.Logic;
 using MongoQueue.Core.LogicAbstractions;
 using MongoQueue.Legacy;
@@ -23,6 +25,7 @@ namespace SecondLegacyReader
             {
                 b.RegisterType<DefaultHandler>();
                 b.RegisterType<AnotherDefaultHandler>();
+                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017/dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30))).As<IMessagingConfiguration>();
             });
 
             var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
