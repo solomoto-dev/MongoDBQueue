@@ -19,5 +19,6 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="..\MongoQueue.dll" target="lib\net461"/>
   </files>
 </package>
