@@ -2,9 +2,9 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>MongoQueue</id>
+    <id>MongoQueue.Core</id>
     <version>1.0.0</version>
-    <title>MongoDB based message queue</title>
+    <title>MongoDB queue core classes</title>
     <authors>Vadim Zhogalsky</authors>
     <owners>SOLOMOTO</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -13,9 +13,7 @@
     <copyright>Copyright © SOLOMOTO</copyright>
     <tags>Solomoto MongoDB queue</tags>
     <dependencies>
-      <dependency id="MongoDB.Driver" version="2.3.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="MongoQueue.Core" version="1.0.0" />
     </dependencies>
   </metadata>
   <files>

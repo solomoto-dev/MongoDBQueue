@@ -77,6 +77,10 @@
     <Compile Include="Logic\UnprocessedMessagesResender.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Nuget\MongoQueue.Core.nuspec">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
