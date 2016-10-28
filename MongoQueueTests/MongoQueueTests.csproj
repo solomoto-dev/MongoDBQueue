@@ -73,21 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnotherTestHandler.cs" />
-    <Compile Include="AnotherTestMessage.cs" />
-    <Compile Include="ResendHandler.cs" />
-    <Compile Include="ResultHolder.cs" />
-    <Compile Include="SlightlyDifferentTestHandler.cs" />
-    <Compile Include="SlightlyDifferentTestMessage.cs" />
-    <Compile Include="SlightlyDifferentTestValueObject.cs" />
-    <Compile Include="TestHandler.cs" />
-    <Compile Include="TestMessage.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestTopicNameProvider.cs" />
-    <Compile Include="TestValueObject.cs" />
-    <Compile Include="Throttle.cs" />
-    <Compile Include="ThrottleException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -101,6 +88,10 @@
     <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6784C9FF-07BC-42AF-B261-2DEA955B6C82}</Project>
       <Name>MongoQueue.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MongoQueueTests.Common\MongoQueueTests.Common.csproj">
+      <Project>{1d27a7e0-5acf-42e4-9df4-c52ece605b03}</Project>
+      <Name>MongoQueueTests.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\MongoQueue\MongoQueue.csproj">
       <Project>{f21221d6-08e3-4168-97cc-579f4af96ec4}</Project>

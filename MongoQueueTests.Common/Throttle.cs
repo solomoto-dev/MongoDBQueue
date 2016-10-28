@@ -4,7 +4,7 @@ using System.Threading;
 using Moq;
 using NUnit.Framework;
 
-namespace MongoQueueTests
+namespace MongoQueueTests.Common
 {
     public static class Throttle
     {

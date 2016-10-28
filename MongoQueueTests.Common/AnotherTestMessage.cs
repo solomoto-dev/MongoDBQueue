@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MongoQueueTests
+namespace MongoQueueTests.Common
 {
     public class AnotherTestMessage
     {

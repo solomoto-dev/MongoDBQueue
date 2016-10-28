@@ -1,6 +1,6 @@
 ﻿using MongoQueue.Core.Logic;
 
-namespace MongoQueueTests
+namespace MongoQueueTests.Common
 {
     public class TestTopicNameProvider : TopicNameProvider
     {

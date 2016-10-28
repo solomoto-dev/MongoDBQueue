@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F21221D6-08E3-4168-97CC-579F4AF96EC4}</ProjectGuid>
+    <ProjectGuid>{1D27A7E0-5ACF-42E4-9DF4-C52ECE605B03}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MongoQueue</RootNamespace>
-    <AssemblyName>MongoQueue</AssemblyName>
+    <RootNamespace>MongoQueueTests.Common</RootNamespace>
+    <AssemblyName>MongoQueueTests.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,45 +31,50 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MongoDB.Bson, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.3.0\lib\net45\MongoDB.Bson.dll</HintPath>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MongoDB.Driver, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.3.0\lib\net45\MongoDB.Driver.dll</HintPath>
+    <Reference Include="Moq, Version=4.5.23.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.5.23\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.3.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionCreator.cs" />
-    <Compile Include="DocumentClassMap.cs" />
-    <Compile Include="DocumentMappingInitializer.cs" />
-    <Compile Include="ListeningAgent.cs" />
-    <Compile Include="MessageStatusManager.cs" />
-    <Compile Include="MongoAgent.cs" />
-    <Compile Include="MessagingDependencyRegistrator.cs" />
+    <Compile Include="AnotherTestHandler.cs" />
+    <Compile Include="AnotherTestMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublishingAgent.cs" />
-    <Compile Include="SubscriptionAgent.cs" />
-    <Compile Include="UnprocessedMessagesAgent.cs" />
+    <Compile Include="ResendHandler.cs" />
+    <Compile Include="ResultHolder.cs" />
+    <Compile Include="SlightlyDifferentTestHandler.cs" />
+    <Compile Include="SlightlyDifferentTestMessage.cs" />
+    <Compile Include="SlightlyDifferentTestValueObject.cs" />
+    <Compile Include="TestHandler.cs" />
+    <Compile Include="TestMessage.cs" />
+    <Compile Include="TestTopicNameProvider.cs" />
+    <Compile Include="TestValueObject.cs" />
+    <Compile Include="Throttle.cs" />
+    <Compile Include="ThrottleException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
-      <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
+      <Project>{6784C9FF-07BC-42AF-B261-2DEA955B6C82}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Nuget\MongoQueue.nuspec">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

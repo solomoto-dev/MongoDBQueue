@@ -1,4 +1,4 @@
-﻿namespace MongoQueueTests
+﻿namespace MongoQueueTests.Common
 {
     public class TestValueObject
     {

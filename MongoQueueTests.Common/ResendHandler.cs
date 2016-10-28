@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MongoQueue.Core;
 using MongoQueue.Core.AgentAbstractions;
 
-namespace MongoQueueTests
+namespace MongoQueueTests.Common
 {
     public class ResendHandler : MessageHandlerBase<TestMessage>
     {

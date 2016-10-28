@@ -2,16 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
-using MongoQueue;
 using MongoQueue.Autofac;
 using MongoQueue.Core.IntegrationAbstractions;
 using MongoQueue.Core.IntegrationDefaults;
 using MongoQueue.Core.Logic;
 using MongoQueue.Core.LogicAbstractions;
+using MongoQueue.Legacy;
 using MongoQueueTests.Common;
 using NUnit.Framework;
 
-namespace MongoQueueTests
+namespace MongoQueueTests.Legacy
 {
     [TestFixture]
     public class Test
@@ -19,7 +19,7 @@ namespace MongoQueueTests
         [SetUp]
         public void Setup()
         {
-            AutofacComposition.Compose(new MessagingDependencyRegistrator(), b =>
+            AutofacComposition.Compose(new LegacyMessagingDependencyRegistrator(), b =>
             {
                 b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017/test-queue", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1))).As<IMessagingConfiguration>();
                 b.RegisterType<TestTopicNameProvider>().As<ITopicNameProvider>();
@@ -38,7 +38,7 @@ namespace MongoQueueTests
 
         private static void ClearDb()
         {
-            var mongoAgent = AutofacComposition.Container.Resolve<MongoAgent>();
+            var mongoAgent = AutofacComposition.Container.Resolve<LegacyMongoAgent>();
             var db = mongoAgent.GetDb();
             db.DropCollection("test_Envelops");
             db.DropCollection("Subscriber");

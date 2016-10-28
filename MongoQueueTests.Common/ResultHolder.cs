@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MongoQueueTests
+namespace MongoQueueTests.Common
 {
     public static class ResultHolder
     {
