@@ -7,7 +7,7 @@ using MongoQueue.Core.LogicAbstractions;
 
 namespace MongoQueue.Core.Logic
 {
-    public class MessageListener
+    public class QueueListener
     {
         private readonly IMessageTypesCache _messageTypesCache;
         private readonly IMessagingLogger _messagingLogger;
@@ -18,7 +18,7 @@ namespace MongoQueue.Core.Logic
         private readonly ISubscriptionAgent _subscriptionAgent;
         private readonly ICollectionCreator _collectionCreator;
 
-        public MessageListener(
+        public QueueListener(
             IMessageTypesCache messageTypesCache,
             IMessagingLogger messagingLogger,
             UnprocessedMessagesResender unprocessedMessagesResender,

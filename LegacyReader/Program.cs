@@ -34,7 +34,7 @@ namespace LegacyReader
                 
             }
 
-            var mongoMessageListener = AutofacComposition.Container.Resolve<MessageListener>();
+            var mongoMessageListener = AutofacComposition.Container.Resolve<QueueListener>();
             mongoMessageListener.Start(appName, CancellationToken.None).Wait();
             Console.WriteLine($"started listener {appName}");
             Console.ReadLine();

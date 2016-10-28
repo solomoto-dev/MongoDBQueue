@@ -63,6 +63,7 @@ namespace MongoQueue.Core.Logic
                     var payload = JsonConvert.SerializeObject(message);
                     await _publishingAgent.PublishToSubscriberAsync(subscriber.Name, topic, payload);
                 }
+                await Task.Delay(10);
             }
             else
             {

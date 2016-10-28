@@ -30,10 +30,10 @@ namespace MongoQueueTests
                 }
                 Thread.Sleep(10);
             }
-            throw new AssertionException("method wasn`t called");
+            throw new ThrottleException();
         }
 
-        public static void Assert(Action action, TimeSpan minTimeout = default(TimeSpan),
+        public static void Assert(Func<bool> action, TimeSpan minTimeout = default(TimeSpan),
             TimeSpan maxTimeout = default(TimeSpan))
         {
             maxTimeout = maxTimeout == default(TimeSpan) ? TimeSpan.FromSeconds(5) : maxTimeout;
@@ -46,7 +46,7 @@ namespace MongoQueueTests
             {
                 try
                 {
-                    action();
+                    NUnit.Framework.Assert.True(action());
                     return;
                 }
                 catch (AssertionException)
@@ -54,7 +54,8 @@ namespace MongoQueueTests
                 }
                 Thread.Sleep(10);
             }
-            throw new AssertionException("Assertion wasn`t satisfied in time");
+            throw new ThrottleException();
         }
     }
 }
+

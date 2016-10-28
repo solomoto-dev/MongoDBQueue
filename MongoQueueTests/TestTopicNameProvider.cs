@@ -1,4 +1,4 @@
-﻿using MongoQueue.Core;
+﻿using MongoQueue.Core.Logic;
 
 namespace MongoQueueTests
 {

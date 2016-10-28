@@ -17,7 +17,7 @@ namespace MongoQueue.Core
             registerAbstract(typeof(IMessagingConfiguration), typeof(DefaultMessagingConfiguration), false);
             registerAbstract(typeof(IMessagingLogger), typeof(ConsoleMessagingLogger), false);
 
-            registerClass(typeof(MessageListener));
+            registerClass(typeof(QueueListener));
             registerClass(typeof(MessageProcessor));
             registerClass(typeof(UnprocessedMessagesResender));
 

@@ -70,7 +70,7 @@
     <Compile Include="Logic\QueuePublisher.cs" />
     <Compile Include="Logic\MessageTypesCache.cs" />
     <Compile Include="MongoDependentHandlerBase.cs" />
-    <Compile Include="Logic\MessageListener.cs" />
+    <Compile Include="Logic\QueueListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Subscriber.cs" />
     <Compile Include="Logic\TopicNameProvider.cs" />

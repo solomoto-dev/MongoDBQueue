@@ -11,7 +11,6 @@ namespace MessageWriter
 {
     class Program
     {
-
         static void Main()
         {
             DoStuff().Wait();

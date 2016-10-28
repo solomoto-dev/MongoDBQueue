@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
@@ -32,22 +33,15 @@ namespace MongoQueue
 
         public async Task Listen(string appName, CancellationToken cancellationToken)
         {
-            var findOptions = new FindOptions<Envelope>
-            {
-                CursorType = CursorType.TailableAwait,
-                MaxAwaitTime = TimeSpan.FromMinutes(60),
-                NoCursorTimeout = true,
-                Sort = Builders<Envelope>.Sort.Ascending("$natural")
-            };
             var notReadFilter = Builders<Envelope>.Filter.Eq(x => x.IsRead, false);
             var collection = _mongoAgent.GetEnvelops(appName);
             try
             {
-                using (var cursor = await collection.FindAsync(notReadFilter, findOptions, cancellationToken))
+                while (true)
                 {
-                    while (await cursor.MoveNextAsync(cancellationToken))
+                    var messages = await (await collection.FindAsync(notReadFilter, null, cancellationToken)).ToListAsync(cancellationToken);
                     {
-                        foreach (var message in cursor.Current)
+                        foreach (var message in messages)
                         {
                             var readMessage = await _messageStatusManager.TrySetReadAt(appName, message.Id, cancellationToken);
                             if (readMessage != null)
@@ -57,7 +51,10 @@ namespace MongoQueue
                             }
                         }
                     }
-                    _messagingLogger.Debug($"{appName} cursor is dead");
+                    if (!messages.Any())
+                    {
+                        await Task.Delay(100, cancellationToken);
+                    }
                 }
             }
             catch (MongoCommandException mongoCommandException)
