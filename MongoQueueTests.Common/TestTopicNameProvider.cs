@@ -2,7 +2,7 @@
 
 namespace MongoQueueTests.Common
 {
-    public class TestTopicNameProvider : TopicNameProvider
+    public class TestTopicNameProvider : DefaultTopicNameProvider
     {
         public override string Get<TMessage>()
         {

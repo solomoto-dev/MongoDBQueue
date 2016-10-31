@@ -8,6 +8,6 @@ namespace MongoQueue.Core.AgentAbstractions
     {
         List<Subscriber> GetSubscribers(string topic);
         Task<List<Subscriber>> GetSubscribersAsync(string topic);
-        Task UpdateSubscriber(string appName, string[] topics);
+        Task UpdateSubscriber(string route, string[] topics);
     }
 }

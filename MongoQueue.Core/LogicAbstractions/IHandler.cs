@@ -10,6 +10,6 @@ namespace MongoQueue.Core.LogicAbstractions
 
     public interface IHandler
     {
-        Task Handle(string appName, string messageId, object message, bool resend, CancellationToken cancellationToken);
+        Task Handle(string route, string messageId, object message, bool resend, CancellationToken cancellationToken);
     }
 }

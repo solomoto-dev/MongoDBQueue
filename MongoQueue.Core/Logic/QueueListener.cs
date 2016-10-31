@@ -39,46 +39,46 @@ namespace MongoQueue.Core.Logic
             _collectionCreator = collectionCreator;
         }
 
-        public async Task Start(string appName, CancellationToken cancellationToken)
+        public async Task Start(string route, CancellationToken cancellationToken)
         {
             _documentMappingInitializer.Initialize();
-            if (appName.Contains(" "))
+            if (route.Contains(" "))
             {
-                throw new ArgumentException("appName");
+                throw new ArgumentException("route");
             }
             var topics = _messageTypesCache.GetAllTopics();
-            await _subscriptionAgent.UpdateSubscriber(appName, topics);
-            await _collectionCreator.CreateCollectionIfNotExist(appName);
-            RunListener(appName, cancellationToken);
+            await _subscriptionAgent.UpdateSubscriber(route, topics);
+            await _collectionCreator.CreateCollectionIfNotExist(route);
+            RunListener(route, cancellationToken);
         }
 
-        private async void RunListener(string appName, CancellationToken cancellationToken)
+        private async void RunListener(string route, CancellationToken cancellationToken)
         {
             try
             {
-                _unprocessedMessagesResender.Start(appName, _messagingConfiguration.ResendInterval, cancellationToken);
+                _unprocessedMessagesResender.Start(route, _messagingConfiguration.ResendInterval, cancellationToken);
                 while (true)
                 {
                     try
                     {
-                        await _listeningAgent.Listen(appName, cancellationToken);
+                        await _listeningAgent.Listen(route, cancellationToken);
                     }
                     catch (TaskCanceledException)
                     {
-                        _messagingLogger.Info($"{appName} cancelled listener");
+                        _messagingLogger.Info($"{route} cancelled listener");
                         return;
                     }
                     
                     catch (Exception e)
                     {
-                        _messagingLogger.Error(e, $"error on listening in {appName}, trying againg");
+                        _messagingLogger.Error(e, $"error on listening in {route}, trying againg");
                     }
                     await Task.Delay(500, cancellationToken);
                 }
             }
             catch (Exception e)
             {
-                _messagingLogger.Error(e, $"error on starting listening in {appName}, listener is stopped");
+                _messagingLogger.Error(e, $"error on starting listening in {route}, listener is stopped");
             }
         }
     }

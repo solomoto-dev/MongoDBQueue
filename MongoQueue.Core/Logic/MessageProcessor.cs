@@ -31,7 +31,7 @@ namespace MongoQueue.Core.Logic
         private static Dictionary<string, string> _originals = new Dictionary<string, string>();
         private static Dictionary<string, string> _resends = new Dictionary<string, string>();
 
-        public async void Process(string appName, string messageId, string topic, string payload, bool resend,
+        public async void Process(string route, string messageId, string topic, string payload, bool resend,
             CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
@@ -49,7 +49,7 @@ namespace MongoQueue.Core.Logic
                 var message = JsonConvert.DeserializeObject(payload, type);
                 var handlerType = _messageHandlersCache.Get(topic);
                 var handlerInstance = _messageHandlerFactory.Create(handlerType);
-                await handlerInstance.Handle(appName, messageId, message, resend, cancellationToken);
+                await handlerInstance.Handle(route, messageId, message, resend, cancellationToken);
             }
             catch (Exception e)
             {

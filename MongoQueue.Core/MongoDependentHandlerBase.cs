@@ -16,14 +16,14 @@ namespace MongoQueue.Core
 
         public abstract Task Handle(TMessage message, bool resend, CancellationToken cancellationToken);
 
-        public async Task Handle(string appName, string messageId, object message, bool resend, CancellationToken cancellationToken)
+        public async Task Handle(string route, string messageId, object message, bool resend, CancellationToken cancellationToken)
         {
             if (!cancellationToken.IsCancellationRequested)
             {
-                if (await _messageStatusManager.TrySetProcessingStartedAt(appName, messageId, cancellationToken))
+                if (await _messageStatusManager.TrySetProcessingStartedAt(route, messageId, cancellationToken))
                 {
                     await Handle((TMessage)message, resend, cancellationToken);
-                    await _messageStatusManager.SetProcessedAt(appName, messageId, cancellationToken);
+                    await _messageStatusManager.SetProcessedAt(route, messageId, cancellationToken);
                 }
             }
         }

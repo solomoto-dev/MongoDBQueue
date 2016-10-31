@@ -23,10 +23,10 @@ namespace MongoQueue
             _mongoAgent = mongoAgent;
             _messagingConfiguration = messagingConfiguration;
         }
-        public async Task<List<Envelope>> GetUnprocessed(string appName, CancellationToken cancellationToken)
+        public async Task<List<Envelope>> GetUnprocessed(string route, CancellationToken cancellationToken)
         {
             var treshold = DateTime.UtcNow - _messagingConfiguration.ResendTreshold;
-            var collection = _mongoAgent.GetEnvelops(appName);
+            var collection = _mongoAgent.GetEnvelops(route);
             var notProcessedFilter = Builders<Envelope>.Filter.And(
                     Builders<Envelope>.Filter.Lt(x => x.ReadAt, treshold),
                     Builders<Envelope>.Filter.Eq(x => x.IsRead, true),
@@ -42,9 +42,9 @@ namespace MongoQueue
         }
 
 
-        public async Task<string> Resend(string appName, Envelope original, CancellationToken cancellationToken)
+        public async Task<string> Resend(string route, Envelope original, CancellationToken cancellationToken)
         {
-            var collection = _mongoAgent.GetEnvelops(appName);
+            var collection = _mongoAgent.GetEnvelops(route);
             var resend = new Envelope(original.Topic, original.Payload, original.Id);
             await collection.InsertOneAsync(resend, null, cancellationToken);
             var updateDefinition = Builders<Envelope>.Update

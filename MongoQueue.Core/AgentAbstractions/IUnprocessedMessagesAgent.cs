@@ -7,7 +7,7 @@ namespace MongoQueue.Core.AgentAbstractions
 {
     public interface IUnprocessedMessagesAgent
     {
-        Task<List<Envelope>> GetUnprocessed(string appName, CancellationToken cancellationToken);
-        Task<string> Resend(string appName, Envelope original, CancellationToken cancellationToken);
+        Task<List<Envelope>> GetUnprocessed(string route, CancellationToken cancellationToken);
+        Task<string> Resend(string route, Envelope original, CancellationToken cancellationToken);
     }
 }

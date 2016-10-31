@@ -15,10 +15,10 @@ namespace LegacyReader
     {
         static void Main(string[] args)
         {
-            string appName = "listener";
+            string route = "listener";
             if (args.Any())
             {
-                appName = args[0];
+                route = args[0];
             }
 
             AutofacComposition.Compose(new LegacyMessagingDependencyRegistrator(), b =>
@@ -35,8 +35,8 @@ namespace LegacyReader
             }
 
             var mongoMessageListener = AutofacComposition.Container.Resolve<QueueListener>();
-            mongoMessageListener.Start(appName, CancellationToken.None).Wait();
-            Console.WriteLine($"started listener {appName}");
+            mongoMessageListener.Start(route, CancellationToken.None).Wait();
+            Console.WriteLine($"started listener {route}");
             Console.ReadLine();
         }
     }

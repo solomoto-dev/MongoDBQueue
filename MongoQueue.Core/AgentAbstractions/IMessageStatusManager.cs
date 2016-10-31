@@ -6,8 +6,8 @@ namespace MongoQueue.Core.AgentAbstractions
 {
     public interface IMessageStatusManager
     {
-        Task<bool> TrySetProcessingStartedAt(string appName, string messageId, CancellationToken cancellationToken);
-        Task SetProcessedAt(string appName, string messageId, CancellationToken cancellationToken);
-        Task<Envelope> TrySetReadAt(string appName, string messageId, CancellationToken cancellationToken);
+        Task<bool> TrySetProcessingStartedAt(string route, string messageId, CancellationToken cancellationToken);
+        Task SetProcessedAt(string route, string messageId, CancellationToken cancellationToken);
+        Task<Envelope> TrySetReadAt(string route, string messageId, CancellationToken cancellationToken);
     }
 }

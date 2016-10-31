@@ -5,6 +5,6 @@ namespace MongoQueue.Core.AgentAbstractions
 {
     public interface IListeningAgent
     {
-        Task Listen(string appName, CancellationToken cancellationToken);
+        Task Listen(string route, CancellationToken cancellationToken);
     }
 }

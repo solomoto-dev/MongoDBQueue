@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using MongoQueue.Core.LogicAbstractions;
 
 namespace MongoQueue.Core.Logic
@@ -7,7 +7,7 @@ namespace MongoQueue.Core.Logic
     public class MessageHandlersCache : IMessageHandlersCache
     {
         private readonly ITopicNameProvider _topicNameProvider;
-        private static readonly Dictionary<string, Type> Cache = new Dictionary<string, Type>();
+        private static readonly ConcurrentDictionary<string, Type> Cache = new ConcurrentDictionary<string, Type>();
 
         public MessageHandlersCache(ITopicNameProvider topicNameProvider)
         {

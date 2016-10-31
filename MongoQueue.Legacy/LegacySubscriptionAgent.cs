@@ -27,11 +27,11 @@ namespace MongoQueue.Legacy
             return GetSubscribers(topic);
         }
 
-        public async Task UpdateSubscriber(string appName, string[] topics)
+        public async Task UpdateSubscriber(string route, string[] topics)
         {
-            var subscriber = new Subscriber(appName, topics);
+            var subscriber = new Subscriber(route, topics);
             var subscribersCollection = _mongoAgent.GetSubscribers();
-            var query = Query<Subscriber>.EQ(x => x.Name, appName);
+            var query = Query<Subscriber>.EQ(x => x.Name, route);
             var existingSubscriber = subscribersCollection.Find(query).FirstOrDefault();
             if (existingSubscriber != null)
             {

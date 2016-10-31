@@ -31,10 +31,10 @@ namespace MongoQueue.Legacy
             _messageProcessor = messageProcessor;
         }
 
-        public async Task Listen(string appName, CancellationToken cancellationToken)
+        public async Task Listen(string route, CancellationToken cancellationToken)
         {
             var notReadQuery = Query<Envelope>.EQ(x => x.IsRead, false);
-            var collection = _mongoAgent.GetEnvelops(appName);
+            var collection = _mongoAgent.GetEnvelops(route);
             try
             {
                 while (true)
@@ -42,11 +42,11 @@ namespace MongoQueue.Legacy
                     var messages = collection.Find(notReadQuery).ToList();
                     foreach (var envelope in messages)
                     {
-                        var readMessage = await _messageStatusManager.TrySetReadAt(appName, envelope.Id, cancellationToken);
+                        var readMessage = await _messageStatusManager.TrySetReadAt(route, envelope.Id, cancellationToken);
                         if (readMessage != null)
                         {
                             var resend = readMessage.OriginalId != IdGenerator.Empty;
-                            _messageProcessor.Process(appName, readMessage.Id, readMessage.Topic, readMessage.Payload, resend, cancellationToken);
+                            _messageProcessor.Process(route, readMessage.Id, readMessage.Topic, readMessage.Payload, resend, cancellationToken);
                         }
                     }
                     if (!messages.Any())
@@ -60,11 +60,11 @@ namespace MongoQueue.Legacy
                 if (mongoCommandException.Code == 96)
                 {
                     _messagingLogger.Error(mongoCommandException,
-                        $"{appName} reader processes messages slower than they occur");
+                        $"{route} reader processes messages slower than they occur");
                 }
                 else
                 {
-                    _messagingLogger.Error(mongoCommandException, $"{appName}");
+                    _messagingLogger.Error(mongoCommandException, $"{route}");
                 }
             }
         }

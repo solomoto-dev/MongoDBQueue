@@ -60,7 +60,7 @@ namespace MongoQueueTests.Legacy
             Throttle.Assert(
                 () => ResultHolder.Contains(testMessage.Id + "resend") && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(5)
+                TimeSpan.FromSeconds(6)
                 );
         }
 
@@ -78,7 +78,7 @@ namespace MongoQueueTests.Legacy
             Throttle.Assert(
                 () => ResultHolder.Count == 0,
                 TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(5)
+                TimeSpan.FromSeconds(6)
                 );
         }
 
@@ -95,7 +95,7 @@ namespace MongoQueueTests.Legacy
             Throttle.Assert(
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(5)
+                TimeSpan.FromSeconds(6)
                 );
         }
 
@@ -112,7 +112,7 @@ namespace MongoQueueTests.Legacy
             Throttle.Assert(
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(5)
+                TimeSpan.FromSeconds(6)
                 );
         }
 

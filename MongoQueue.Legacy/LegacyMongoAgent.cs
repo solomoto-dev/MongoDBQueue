@@ -38,14 +38,14 @@ namespace MongoQueue.Legacy
             });
         }
 
-        public MongoCollection<Envelope> GetEnvelops(string appName)
+        public MongoCollection<Envelope> GetEnvelops(string route)
         {
-            return GetCollection<Envelope>(GetEnvelopsCollectionName(appName));
+            return GetCollection<Envelope>(GetEnvelopsCollectionName(route));
         }
 
-        public string GetEnvelopsCollectionName(string appName)
+        public string GetEnvelopsCollectionName(string route)
         {
-            return $"{appName}_Envelops";
+            return $"{route}_Envelops";
         }
     }
 }

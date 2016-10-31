@@ -16,10 +16,10 @@ namespace MongoQueueReader
     {
         static void Main(string[] args)
         {
-            string appName = "listener";
+            string route = "listener";
             if (args.Any())
             {
-                appName = args[0];
+                route = args[0];
             }
 
             AutofacComposition.Compose(new MessagingDependencyRegistrator(), b =>
@@ -32,8 +32,8 @@ namespace MongoQueueReader
             subscriber.Subscribe<DefaultHandler, DomainMessage>();
 
             var mongoMessageListener = AutofacComposition.Container.Resolve<QueueListener>();
-            mongoMessageListener.Start(appName, CancellationToken.None).Wait();
-            Console.WriteLine($"started listener {appName}");
+            mongoMessageListener.Start(route, CancellationToken.None).Wait();
+            Console.WriteLine($"started listener {route}");
             Console.ReadLine();
         }
     }

@@ -10,7 +10,7 @@ namespace MongoQueue.Core
     {
         public void RegisterDefault(Action<Type, Type, bool> registerAbstract, Action<Type> registerClass)
         {
-            registerAbstract(typeof(ITopicNameProvider), typeof(TopicNameProvider), false);
+            registerAbstract(typeof(ITopicNameProvider), typeof(DefaultTopicNameProvider), false);
             registerAbstract(typeof(IQueueSubscriber), typeof(DefaultQueueSubscriber), false);
             registerAbstract(typeof(IQueuePublisher), typeof(QueuePublisher), false);
             registerAbstract(typeof(IMessageHandlerFactory), typeof(ActivatorMessageHandlerFactory), false);

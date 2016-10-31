@@ -35,11 +35,11 @@ namespace MongoQueue
             return subscribers;
         }
 
-        public async Task UpdateSubscriber(string appName, string[] topics)
+        public async Task UpdateSubscriber(string route, string[] topics)
         {
-            var subscriber = new Subscriber(appName, topics);
+            var subscriber = new Subscriber(route, topics);
             var subscribersCollection = _mongoAgent.GetSubscribers();
-            var nameFilter = Builders<Subscriber>.Filter.Eq(x => x.Name, appName);
+            var nameFilter = Builders<Subscriber>.Filter.Eq(x => x.Name, route);
             var existingSubscriber = await (await subscribersCollection.FindAsync(nameFilter)).FirstOrDefaultAsync();
             if (existingSubscriber != null)
             {

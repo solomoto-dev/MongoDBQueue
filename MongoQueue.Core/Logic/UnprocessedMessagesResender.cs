@@ -20,15 +20,15 @@ namespace MongoQueue.Core.Logic
             _messagingLogger = messagingLogger;
         }
 
-        public async void Start(string appName, TimeSpan resendInterval, CancellationToken cancellationToken)
+        public async void Start(string route, TimeSpan resendInterval, CancellationToken cancellationToken)
         {
             try
             {
-                await RepeatEvery(() => Resend(appName, cancellationToken), resendInterval);
+                await RepeatEvery(() => Resend(route, cancellationToken), resendInterval);
             }
             catch (Exception e)
             {
-                _messagingLogger.Error(e, $"{appName} error on UnprocessedMessagesResender.Start");
+                _messagingLogger.Error(e, $"{route} error on UnprocessedMessagesResender.Start");
             }
         }
 
@@ -48,20 +48,20 @@ namespace MongoQueue.Core.Logic
             }
         }
 
-        private async Task Resend(string appName, CancellationToken cancellationToken)
+        private async Task Resend(string route, CancellationToken cancellationToken)
         {
             try
             {
-                var notProcessed = await _unprocessedMessagesAgent.GetUnprocessed(appName, cancellationToken);
+                var notProcessed = await _unprocessedMessagesAgent.GetUnprocessed(route, cancellationToken);
                 foreach (var envelope in notProcessed)
                 {
-                    var resendId = await _unprocessedMessagesAgent.Resend(appName, envelope, cancellationToken);
-                    _messagingLogger.Trace($"{appName} resent {envelope.Id} as {resendId}");
+                    var resendId = await _unprocessedMessagesAgent.Resend(route, envelope, cancellationToken);
+                    _messagingLogger.Trace($"{route} resent {envelope.Id} as {resendId}");
                 }
             }
             catch (Exception e)
             {
-                _messagingLogger.Error(e, $"{appName} resend error");
+                _messagingLogger.Error(e, $"{route} resend error");
             }
         }
     }

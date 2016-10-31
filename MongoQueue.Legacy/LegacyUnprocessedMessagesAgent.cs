@@ -23,10 +23,10 @@ namespace MongoQueue.Legacy
             _mongoAgent = mongoAgent;
             _messagingConfiguration = messagingConfiguration;
         }
-        public async Task<List<Envelope>> GetUnprocessed(string appName, CancellationToken cancellationToken)
+        public async Task<List<Envelope>> GetUnprocessed(string route, CancellationToken cancellationToken)
         {
             var treshold = DateTime.UtcNow - _messagingConfiguration.ResendTreshold;
-            var collection = _mongoAgent.GetEnvelops(appName);
+            var collection = _mongoAgent.GetEnvelops(route);
             var notProcessedQuery = Query.And(
                 Query<Envelope>.LT(x => x.ReadAt, treshold),
                 Query<Envelope>.EQ(x => x.IsRead, true),
@@ -36,9 +36,9 @@ namespace MongoQueue.Legacy
             return notProcessed;
         }
 
-        public async Task<string> Resend(string appName, Envelope original, CancellationToken cancellationToken)
+        public async Task<string> Resend(string route, Envelope original, CancellationToken cancellationToken)
         {
-            var collection = _mongoAgent.GetEnvelops(appName);
+            var collection = _mongoAgent.GetEnvelops(route);
             var resend = new Envelope(original.Topic, original.Payload, original.Id);
             collection.Insert(resend);
             var update = Update<Envelope>

@@ -2,7 +2,7 @@
 
 namespace MongoQueue.Core.Logic
 {
-    public class TopicNameProvider : ITopicNameProvider
+    public class DefaultTopicNameProvider : ITopicNameProvider
     {
         public virtual string Get<TMessage>()
         {

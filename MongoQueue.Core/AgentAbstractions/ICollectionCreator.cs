@@ -4,6 +4,6 @@ namespace MongoQueue.Core.AgentAbstractions
 {
     public interface ICollectionCreator
     {
-        Task CreateCollectionIfNotExist(string appName);
+        Task CreateCollectionIfNotExist(string route);
     }
 }
