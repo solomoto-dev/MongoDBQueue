@@ -3,7 +3,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>MongoQueue.Core</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>MongoDB queue core classes</title>
     <authors>Vadim Zhogalsky</authors>
     <owners>SOLOMOTO</owners>
