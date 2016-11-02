@@ -38,8 +38,10 @@ namespace MongoQueue.Core.Logic
             {
                 try
                 {
+                    _messagingLogger.Debug("starting resending cycle");
                     await action();
                     await Task.Delay(interval);
+                    _messagingLogger.Debug("resending cycle ended");
                 }
                 catch (TaskCanceledException)
                 {
@@ -56,7 +58,7 @@ namespace MongoQueue.Core.Logic
                 foreach (var envelope in notProcessed)
                 {
                     var resendId = await _unprocessedMessagesAgent.Resend(route, envelope, cancellationToken);
-                    _messagingLogger.Trace($"{route} resent {envelope.Id} as {resendId}");
+                    _messagingLogger.Debug($"{route} resent {envelope.Id} as {resendId}");
                 }
             }
             catch (Exception e)

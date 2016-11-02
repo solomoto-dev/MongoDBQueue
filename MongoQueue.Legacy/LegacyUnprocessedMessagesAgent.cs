@@ -1,4 +1,4 @@
-﻿using System; 
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,14 +14,17 @@ namespace MongoQueue.Legacy
     {
         private readonly LegacyMongoAgent _mongoAgent;
         private readonly IMessagingConfiguration _messagingConfiguration;
+        private readonly IMessagingLogger _messagingLogger;
 
         public LegacyUnprocessedMessagesAgent(
-            LegacyMongoAgent mongoAgent, 
-            IMessagingConfiguration messagingConfiguration
+            LegacyMongoAgent mongoAgent,
+            IMessagingConfiguration messagingConfiguration,
+            IMessagingLogger messagingLogger
         )
         {
             _mongoAgent = mongoAgent;
             _messagingConfiguration = messagingConfiguration;
+            _messagingLogger = messagingLogger;
         }
         public async Task<List<Envelope>> GetUnprocessed(string route, CancellationToken cancellationToken)
         {
@@ -33,6 +36,7 @@ namespace MongoQueue.Legacy
                 Query<Envelope>.EQ(x => x.IsProcessed, false)
             );
             var notProcessed = collection.Find(notProcessedQuery).ToList();
+            _messagingLogger.Debug($"got {notProcessed.Count} unprocessed messages to resend");
             return notProcessed;
         }
 
@@ -46,6 +50,7 @@ namespace MongoQueue.Legacy
                 .Set(x => x.IsProcessed, true)
                 .Set(x => x.ResendId, resend.Id);
             collection.Update(Query<Envelope>.EQ(x => x.Id, original.Id), update);
+            _messagingLogger.Debug($"resent to {route}  id {original.Id} newid {resend.Id} ");
             return resend.Id;
         }
     }

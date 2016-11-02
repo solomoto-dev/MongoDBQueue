@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using MongoQueue;
 using MongoQueue.Autofac;
+using MongoQueue.Core;
 using MongoQueue.Core.IntegrationAbstractions;
 using MongoQueue.Core.IntegrationDefaults;
 using MongoQueue.Core.Logic;
@@ -13,44 +15,27 @@ using NUnit.Framework;
 
 namespace MongoQueueTests
 {
-    [TestFixture]
-    public class Test
+    public class Test : QueueTestsBase
     {
-        [SetUp]
-        public void Setup()
+        protected override IMessagingDependencyRegistrator GetRegistrtor()
         {
-            AutofacComposition.Compose(new MessagingDependencyRegistrator(), b =>
-            {
-                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017/test-queue", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1))).As<IMessagingConfiguration>();
-                b.RegisterType<TestTopicNameProvider>().As<ITopicNameProvider>();
-                b.RegisterType<TestHandler>();
-                b.RegisterType<SlightlyDifferentTestHandler>();
-                b.RegisterType<ResendHandler>();
-            });
-            ClearDb();
+            return new MessagingDependencyRegistrator();
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            ClearDb();
-        }
-
-        private static void ClearDb()
+        protected override void DropCollection(string collectionName)
         {
             var mongoAgent = AutofacComposition.Container.Resolve<MongoAgent>();
             var db = mongoAgent.GetDb();
-            db.DropCollection("test_Envelops");
-            db.DropCollection("Subscriber");
-            db.DropCollection("test2_Envelops");
-            ResultHolder.Clear();
+            db.DropCollection(collectionName);
         }
-
 
         [Test, RunInApplicationDomain]
         public async Task WhenMessageIsResent_SystemProcessesItOnce()
         {
             var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            var configuration = (DefaultMessagingConfiguration)AutofacComposition.Container.Resolve<IMessagingConfiguration>() ;
+            configuration.ResendInterval = TimeSpan.FromSeconds(1);
+            configuration.ResendTreshold = TimeSpan.FromSeconds(1);
             subscriber.Subscribe<ResendHandler, TestMessage>();
             var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
             var listener = AutofacComposition.Container.Resolve<QueueListener>();
@@ -115,11 +100,47 @@ namespace MongoQueueTests
                 TimeSpan.FromSeconds(6)
                 );
         }
-
-        private TestMessage CreateMessage()
+        [Test, RunInApplicationDomain]
+        [TestCase(3)]
+        public async Task WhenNMessagesAreSent_NMessagesHandled(int messagesCount)
         {
-            return new TestMessage(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(),
-                new TestValueObject("123", "123123"));
+            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            subscriber.Subscribe<SlightlyDifferentTestHandler, SlightlyDifferentTestMessage>();
+            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
+            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            await listener.Start("test", CancellationToken.None);
+            var testMessages = Enumerable.Range(0, messagesCount).Select(x => CreateMessage()).ToArray();
+            foreach (var testMessage in testMessages)
+            {
+                publisher.Publish(testMessage);
+            }
+            Throttle.Assert(
+                () => ResultHolder.Contains(testMessages.Select(x => x.Id).ToArray()) && ResultHolder.Count == testMessages.Length,
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(6)
+                );
+        }
+
+
+        [Test, RunInApplicationDomain]
+        [TestCase(5)]
+        public async Task WhenNMessagesAreSent_TheyAreHandledSimultaneously(int messagesCount)
+        {
+            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            subscriber.Subscribe<TimeConsumingHandler, TestMessage>();
+            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
+            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            await listener.Start("test", CancellationToken.None);
+            var testMessages = Enumerable.Range(0, messagesCount).Select(x => CreateMessage()).ToArray();
+            foreach (var testMessage in testMessages)
+            {
+                publisher.Publish(testMessage);
+            }
+            Throttle.Assert(
+                () => ResultHolder.Contains(testMessages.Select(x => x.Id).ToArray()) && ResultHolder.Count == testMessages.Length,
+                TimeSpan.FromSeconds(4),
+                TimeSpan.FromSeconds(5)
+                );
         }
     }
 }

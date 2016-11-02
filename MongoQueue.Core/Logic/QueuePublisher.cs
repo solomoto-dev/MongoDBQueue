@@ -47,7 +47,7 @@ namespace MongoQueue.Core.Logic
             {
                 _messagingLogger.Debug($"no subsriptions for {topic}");
             }
-            _messagingLogger.Trace($"{topic} sent in {sw.ElapsedMilliseconds}");
+            _messagingLogger.Debug($"{topic} sent in {sw.ElapsedMilliseconds}");
         }
 
         public async Task PublishAsync<TMessage>(TMessage message)
@@ -69,7 +69,7 @@ namespace MongoQueue.Core.Logic
             {
                 _messagingLogger.Debug($"no subsriptions for {topic}");
             }
-            _messagingLogger.Trace($"{topic} sent in {sw.ElapsedMilliseconds}");
+            _messagingLogger.Debug($"{topic} sent in {sw.ElapsedMilliseconds}");
         }
     }
 }

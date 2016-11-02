@@ -4,7 +4,6 @@ using System.Threading;
 using MongoQueue.Core.IntegrationAbstractions;
 using MongoQueue.Core.LogicAbstractions;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace MongoQueue.Core.Logic
 {
@@ -28,21 +27,11 @@ namespace MongoQueue.Core.Logic
             _messagingLogger = messagingLogger;
         }
 
-        private static Dictionary<string, string> _originals = new Dictionary<string, string>();
-        private static Dictionary<string, string> _resends = new Dictionary<string, string>();
-
         public async void Process(string route, string messageId, string topic, string payload, bool resend,
             CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
-            if (resend)
-            {
-                _resends.Add(messageId, payload);
-            }
-            else
-            {
-                _originals.Add(messageId, payload);
-            }
+
             try
             {
                 var type = _messageTypesCache.Get(topic);
@@ -57,7 +46,7 @@ namespace MongoQueue.Core.Logic
             }
             finally
             {
-                _messagingLogger.Trace($"{messageId} processed in {sw.ElapsedMilliseconds}");
+                _messagingLogger.Debug($"{messageId} processed in {sw.ElapsedMilliseconds}");
             }
         }
     }
