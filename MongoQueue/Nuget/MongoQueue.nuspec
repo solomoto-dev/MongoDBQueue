@@ -15,7 +15,7 @@
     <dependencies>
       <dependency id="MongoDB.Driver" version="2.3.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="MongoQueue.Core" version="1.0.3" />
+      <dependency id="MongoQueue.Core" version="1.0.4" />
     </dependencies>
   </metadata>
   <files>
