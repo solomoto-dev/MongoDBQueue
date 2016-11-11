@@ -3,7 +3,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>MongoQueue.Legacy</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <title>MongoDB based message queue with support for legacy mongocsharpdriver</title>
     <authors>Vadim Zhogalsky</authors>
     <owners>SOLOMOTO</owners>
