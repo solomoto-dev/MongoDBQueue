@@ -23,7 +23,7 @@ namespace SecondReader
 
             AutofacComposition.Compose(new MessagingDependencyRegistrator(), b =>
             {
-                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017/dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30))).As<IMessagingConfiguration>();
+                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30))).As<IMessagingConfiguration>();
                 b.RegisterType<DefaultHandler>();
                 b.RegisterType<AnotherDefaultHandler>();
             });

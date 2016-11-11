@@ -12,7 +12,7 @@ namespace MongoQueue.Legacy
         public LegacyMongoAgent(IMessagingConfiguration messagingConfiguration)
         {
             _messagingConfiguration = messagingConfiguration;
-            _dbName = MongoUrl.Create(_messagingConfiguration.ConnectionString).DatabaseName;
+            _dbName = _messagingConfiguration.Database;
         }
         public MongoDatabase GetDb()
         {

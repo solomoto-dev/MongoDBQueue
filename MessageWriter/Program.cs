@@ -20,7 +20,7 @@ namespace MessageWriter
         {
             AutofacComposition.Compose(new MessagingDependencyRegistrator(), b =>
             {
-                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017/dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30))).As<IMessagingConfiguration>();
+                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017","dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30))).As<IMessagingConfiguration>();
             });
             var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
             while (true)

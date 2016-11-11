@@ -14,7 +14,7 @@ namespace MongoQueue
         )
         {
             _messagingConfiguration = messagingConfiguration;
-            _dbName = MongoUrl.Create(_messagingConfiguration.ConnectionString).DatabaseName;
+            _dbName = _messagingConfiguration.Database;
         }
 
         public IMongoDatabase GetDb()

@@ -17,7 +17,7 @@ namespace MongoQueueTests.Common
         {
             AutofacComposition.Compose(GetRegistrtor(), b =>
             {
-                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017/test-queue", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1))).As<IMessagingConfiguration>();
+                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017", "test-queue", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1))).As<IMessagingConfiguration>();
                 b.RegisterType<TestTopicNameProvider>().As<ITopicNameProvider>();
                 b.RegisterType<TestHandler>();
                 b.RegisterType<SlightlyDifferentTestHandler>();
@@ -35,8 +35,6 @@ namespace MongoQueueTests.Common
 
         protected virtual void ClearDb()
         {
-            
-            
             DropCollection("test_Envelops");
             DropCollection("Subscriber");
             DropCollection("test2_Envelops");
