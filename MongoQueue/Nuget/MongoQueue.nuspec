@@ -3,7 +3,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>MongoQueue</id>
-    <version>1.0.3</version>
+    <version>1.0.5</version>
     <title>MongoDB based message queue</title>
     <authors>Vadim Zhogalsky</authors>
     <owners>SOLOMOTO</owners>
@@ -15,7 +15,7 @@
     <dependencies>
       <dependency id="MongoDB.Driver" version="2.3.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="MongoQueue.Core" version="1.0.4" />
+      <dependency id="MongoQueue.Core" version="1.0.5" />
     </dependencies>
   </metadata>
   <files>
