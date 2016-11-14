@@ -25,7 +25,7 @@ namespace MongoQueue.Core.Entities
             ProcessingStartedAt = DateTime.MinValue;
             ProcessedAt = DateTime.MinValue;
             Id = IdGenerator.GetId();
-            ResendId = IdGenerator.GetId();
+            ResendId = IdGenerator.Empty;
         }
 
         public Envelope(string topic, string payload, string originalId = null) : this()
