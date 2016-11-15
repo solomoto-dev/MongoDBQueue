@@ -18,7 +18,6 @@ namespace MongoQueue.Core.Entities
         public bool IsProcessed { get; private set; }
         public int ResentCount { get; private set; }
 
-
         internal Envelope()
         {
             CreatedAt = DateTime.UtcNow;
