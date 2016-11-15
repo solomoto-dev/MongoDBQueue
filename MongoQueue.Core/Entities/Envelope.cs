@@ -16,6 +16,7 @@ namespace MongoQueue.Core.Entities
         public bool IsRead { get; private set; }
         public bool IsProcessingStarted { get; private set; }
         public bool IsProcessed { get; private set; }
+        public int ResentCount { get; private set; }
 
 
         internal Envelope()
@@ -26,13 +27,22 @@ namespace MongoQueue.Core.Entities
             ProcessedAt = DateTime.MinValue;
             Id = IdGenerator.GetId();
             ResendId = IdGenerator.Empty;
+            OriginalId = IdGenerator.Empty;
         }
 
-        public Envelope(string topic, string payload, string originalId = null) : this()
+        public Envelope(string topic, string payload) : this()
         {
             Topic = topic;
             Payload = payload;
-            OriginalId = originalId ?? IdGenerator.Empty;
+
+        }
+
+        public Envelope(string topic, string payload, string originalId, int resentCount) : this()
+        {
+            Topic = topic;
+            Payload = payload;
+            OriginalId = originalId;
+            ResentCount = resentCount;
         }
     }
 }

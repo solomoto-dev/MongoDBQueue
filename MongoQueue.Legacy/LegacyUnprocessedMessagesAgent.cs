@@ -43,7 +43,7 @@ namespace MongoQueue.Legacy
         public async Task<string> Resend(string route, Envelope original, CancellationToken cancellationToken)
         {
             var collection = _mongoAgent.GetEnvelops(route);
-            var resend = new Envelope(original.Topic, original.Payload, original.Id);
+            var resend = new Envelope(original.Topic, original.Payload, original.Id, original.ResentCount + 1);
             collection.Insert(resend);
             var update = Update<Envelope>
                 .Set(x => x.ProcessedAt, DateTime.UtcNow)
