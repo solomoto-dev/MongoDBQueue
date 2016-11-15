@@ -26,8 +26,8 @@ namespace MongoQueue
                 db.CreateCollection(collectionName, new CreateCollectionOptions
                 {
                     Capped = true,
-                    MaxDocuments = 100000,
-                    MaxSize = 300000000
+                    MaxDocuments = 1000000,
+                    MaxSize = 500000000
                 });
                 var mongoIndexManager = db.GetCollection<Envelope>(collectionName).Indexes;
 

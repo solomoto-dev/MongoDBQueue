@@ -22,8 +22,8 @@ namespace MongoQueue.Legacy
             {
                 var collectionOptionsBuilder = new CollectionOptionsBuilder()
                     .SetCapped(true)
-                    .SetMaxDocuments(100000)
-                    .SetMaxSize(300000000);
+                    .SetMaxDocuments(1000000)
+                    .SetMaxSize(500000000);
                 db.CreateCollection(collectionName, collectionOptionsBuilder);
                 var collection = db.GetCollection(collectionName);
                 collection.CreateIndex(IndexKeys<Envelope>.Ascending(x => x.IsRead));
