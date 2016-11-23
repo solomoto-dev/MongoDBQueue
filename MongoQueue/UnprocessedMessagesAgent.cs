@@ -25,10 +25,10 @@ namespace MongoQueue
         }
         public async Task<List<Envelope>> GetUnprocessed(string route, CancellationToken cancellationToken)
         {
-            var treshold = DateTime.UtcNow - _messagingConfiguration.ResendTreshold;
+            var threshold = DateTime.UtcNow - _messagingConfiguration.ResendThreshold;
             var collection = _mongoAgent.GetEnvelops(route);
             var notProcessedFilter = Builders<Envelope>.Filter.And(
-                    Builders<Envelope>.Filter.Lt(x => x.ReadAt, treshold),
+                    Builders<Envelope>.Filter.Lt(x => x.ReadAt, threshold),
                     Builders<Envelope>.Filter.Eq(x => x.IsRead, true),
                     Builders<Envelope>.Filter.Eq(x => x.IsProcessed, false)
                 );

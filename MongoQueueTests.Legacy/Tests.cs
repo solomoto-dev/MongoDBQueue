@@ -37,7 +37,7 @@ namespace MongoQueueTests.Legacy
             var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
             var configuration = (DefaultMessagingConfiguration)AutofacComposition.Container.Resolve<IMessagingConfiguration>();
             configuration.ResendInterval = TimeSpan.FromSeconds(1);
-            configuration.ResendTreshold = TimeSpan.FromSeconds(1);
+            configuration.ResendThreshold = TimeSpan.FromSeconds(1);
             subscriber.Subscribe<ResendHandler, TestMessage>();
             var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
             var listener = AutofacComposition.Container.Resolve<QueueListener>();

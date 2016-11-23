@@ -7,6 +7,6 @@ namespace MongoQueue.Core.IntegrationAbstractions
         string ConnectionString { get; }
         string Database { get; }
         TimeSpan ResendInterval { get; }
-        TimeSpan ResendTreshold { get; }
+        TimeSpan ResendThreshold { get; }
     }
 }
