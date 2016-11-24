@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageWriter", "MessageWriter\MessageWriter.csproj", "{553DEC98-04DF-4030-A455-E9BEBFEA17B8}"
 EndProject
@@ -34,6 +34,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueTests.Legacy", "MongoQueueTests.Legacy\MongoQueueTests.Legacy.csproj", "{6176FA62-A8C5-4183-9EAA-A6CD11A139B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueTests.Common", "MongoQueueTests.Common\MongoQueueTests.Common.csproj", "{1D27A7E0-5ACF-42E4-9DF4-C52ECE605B03}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "NuGet.MongoDBQueue", "NuGet.MongoDBQueue\NuGet.MongoDBQueue.nuproj", "{11CA7974-FC01-42CF-BF56-C114CB4FD81B}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "NuGet.MongoDBQueue.Legacy", "NuGet.MongoDBQueue.Legacy\NuGet.MongoDBQueue.Legacy.nuproj", "{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +97,14 @@ Global
 		{1D27A7E0-5ACF-42E4-9DF4-C52ECE605B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D27A7E0-5ACF-42E4-9DF4-C52ECE605B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D27A7E0-5ACF-42E4-9DF4-C52ECE605B03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11CA7974-FC01-42CF-BF56-C114CB4FD81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11CA7974-FC01-42CF-BF56-C114CB4FD81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11CA7974-FC01-42CF-BF56-C114CB4FD81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11CA7974-FC01-42CF-BF56-C114CB4FD81B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

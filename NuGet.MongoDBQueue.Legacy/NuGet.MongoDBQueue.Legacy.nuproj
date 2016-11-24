@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>40cea4ab-83cf-420d-b958-9a2f8ad20f0e</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>MongoDBQueue.Legacy</Id>
+    <Version>1.0.9</Version>
+    <Title>MongoDBQueue.Legacy</Title>
+    <Authors>Vadim Zhogalskiy</Authors>
+    <Owners>SOLOMOTO</Owners>
+    <Summary>Light abstraction on top of MongoDB to provide basic message queue functionality (with legacy MongoDB driver).</Summary>
+    <Description>Light abstraction on top of MongoDB to provide basic message queue functionality (with legacy MongoDB driver).</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>
+	https://github.com/solomoto-dev/MongoDBQueue
+    </ProjectUrl>
+    <LicenseUrl>
+	http://www.apache.org/licenses/LICENSE-2.0
+    </LicenseUrl>
+    <Copyright>Copyright © solomoto</Copyright>
+    <Tags>MongoDB message queue </Tags>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj" />
+    <ProjectReference Include="..\MongoQueue.Legacy\MongoQueue.Legacy.csproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>
