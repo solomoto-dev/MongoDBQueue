@@ -4,18 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{466A38DC-6278-4311-8024-A78D747D2E09}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{6176FA62-A8C5-4183-9EAA-A6CD11A139B0}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LegacyWriter</RootNamespace>
-    <AssemblyName>LegacyWriter</AssemblyName>
+    <RootNamespace>MongoQueueTests.Legacy</RootNamespace>
+    <AssemblyName>MongoQueueTests.Legacy</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,7 +32,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.11.0.92, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\mongocsharpdriver.1.11.0\lib\net35\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=1.11.0.92, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\mongocsharpdriver.1.11.0\lib\net35\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NUnit.ApplicationDomain, Version=10.0.0.0, Culture=neutral, PublicKeyToken=afbd8211e0c40e2c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.ApplicationDomain.10.0.00\lib\net40\NUnit.ApplicationDomain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -48,27 +65,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnotherDomainMessage.cs" />
-    <Compile Include="DomainMessage.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
-      <Project>{3b76649e-7ee0-4e14-b982-d3de96bca833}</Project>
+    <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
+      <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
-      <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
+      <Project>{6784C9FF-07BC-42AF-B261-2DEA955B6C82}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MongoQueue.Legacy\MongoQueue.Legacy.csproj">
-      <Project>{0f118dcf-48e5-42b5-ac8c-15160ad70611}</Project>
+    <ProjectReference Include="..\..\MongoQueue.Legacy\MongoQueue.Legacy.csproj">
+      <Project>{0F118DCF-48E5-42B5-AC8C-15160AD70611}</Project>
       <Name>MongoQueue.Legacy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MongoQueueTests.Common\MongoQueueTests.Common.csproj">
+      <Project>{1d27a7e0-5acf-42e4-9df4-c52ece605b03}</Project>
+      <Name>MongoQueueTests.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

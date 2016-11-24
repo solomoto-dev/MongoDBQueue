@@ -35,23 +35,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.3.0\lib\net45\MongoDB.Bson.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Bson.2.3.0\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Driver, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.3.0\lib\net45\MongoDB.Driver.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Driver.2.3.0\lib\net45\MongoDB.Driver.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Driver.Core, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.3.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.3.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -74,15 +74,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
+    <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
       <Project>{3b76649e-7ee0-4e14-b982-d3de96bca833}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6784C9FF-07BC-42AF-B261-2DEA955B6C82}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MongoQueue\MongoQueue.csproj">
+    <ProjectReference Include="..\..\MongoQueue\MongoQueue.csproj">
       <Project>{f21221d6-08e3-4168-97cc-579f4af96ec4}</Project>
       <Name>MongoQueue</Name>
     </ProjectReference>

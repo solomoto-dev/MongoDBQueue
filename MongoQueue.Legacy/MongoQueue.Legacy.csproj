@@ -56,40 +56,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Nuget\MongoQueue.Legacy.nuspec">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="_NuProjGetProjectClosure"
-          DependsOnTargets="ResolveProjectReferences"
-          Inputs="%(_MSBuildProjectReferenceExistent.Identity)"
-          Outputs="fake"
-          Returns="@(_ProjectReferenceClosure)">
-
+  <Target Name="_NuProjGetProjectClosure" DependsOnTargets="ResolveProjectReferences" Inputs="%(_MSBuildProjectReferenceExistent.Identity)" Outputs="fake" Returns="@(_ProjectReferenceClosure)">
     <!-- Get closure of indirect references -->
-    <MSBuild Projects="@(_MSBuildProjectReferenceExistent)"
-             Targets="_NuProjGetProjectClosure"
-             Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform)"
-             ContinueOnError="WarnAndContinue">
-      <Output TaskParameter="TargetOutputs"
-              ItemName="_ProjectReferenceClosureWithDuplicates" />
+    <MSBuild Projects="@(_MSBuildProjectReferenceExistent)" Targets="_NuProjGetProjectClosure" Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform)" ContinueOnError="WarnAndContinue">
+      <Output TaskParameter="TargetOutputs" ItemName="_ProjectReferenceClosureWithDuplicates" />
     </MSBuild>
-
     <!-- Remove duplicates from closure -->
     <RemoveDuplicates Inputs="@(_ProjectReferenceClosureWithDuplicates)">
-      <Output TaskParameter="Filtered"
-              ItemName="_ProjectReferenceClosureWithoutMetadata"/>
+      <Output TaskParameter="Filtered" ItemName="_ProjectReferenceClosureWithoutMetadata" />
     </RemoveDuplicates>
-
     <ItemGroup>
       <!-- Remove references that are also direct references -->
       <_ProjectReferenceClosureWithoutMetadata Remove="%(_MSBuildProjectReferenceExistent.FullPath)" />

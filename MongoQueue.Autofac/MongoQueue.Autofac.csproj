@@ -50,9 +50,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
       <Name>MongoQueue.Core</Name>
@@ -61,6 +58,9 @@
       <Project>{f21221d6-08e3-4168-97cc-579f4af96ec4}</Project>
       <Name>MongoQueue</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

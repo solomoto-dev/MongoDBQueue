@@ -1,0 +1,1 @@
+for /d /r . %%d in (bin,obj) do @if exist "%%d"  echo.%%d | findstr /C:"node_modules">nul && ( Echo." " > nul ) || (rd /s/q "%%d" )

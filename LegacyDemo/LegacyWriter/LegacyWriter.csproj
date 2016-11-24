@@ -4,16 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D27A7E0-5ACF-42E4-9DF4-C52ECE605B03}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{466A38DC-6278-4311-8024-A78D747D2E09}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MongoQueueTests.Common</RootNamespace>
-    <AssemblyName>MongoQueueTests.Common</AssemblyName>
+    <RootNamespace>LegacyWriter</RootNamespace>
+    <AssemblyName>LegacyWriter</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,19 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Moq, Version=4.5.23.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.5.23\lib\net45\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -57,34 +48,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnotherTestHandler.cs" />
-    <Compile Include="AnotherTestMessage.cs" />
+    <Compile Include="AnotherDomainMessage.cs" />
+    <Compile Include="DomainMessage.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueueTestsBase.cs" />
-    <Compile Include="ResendHandler.cs" />
-    <Compile Include="ResultHolder.cs" />
-    <Compile Include="SlightlyDifferentTestHandler.cs" />
-    <Compile Include="SlightlyDifferentTestMessage.cs" />
-    <Compile Include="SlightlyDifferentTestValueObject.cs" />
-    <Compile Include="TestHandler.cs" />
-    <Compile Include="TestMessage.cs" />
-    <Compile Include="TestTopicNameProvider.cs" />
-    <Compile Include="TestValueObject.cs" />
-    <Compile Include="Throttle.cs" />
-    <Compile Include="ThrottleException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
-      <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
+      <Project>{3b76649e-7ee0-4e14-b982-d3de96bca833}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
-      <Project>{6784C9FF-07BC-42AF-B261-2DEA955B6C82}</Project>
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
+      <Project>{6784c9ff-07bc-42af-b261-2dea955b6c82}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\..\MongoQueue.Legacy\MongoQueue.Legacy.csproj">
+      <Project>{0f118dcf-48e5-42b5-ac8c-15160ad70611}</Project>
+      <Name>MongoQueue.Legacy</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
