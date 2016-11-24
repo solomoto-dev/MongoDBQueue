@@ -40,8 +40,8 @@
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj" />
-    <ProjectReference Include="..\MongoQueue\MongoQueue.csproj" />
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj" />
+    <ProjectReference Include="..\..\MongoQueue\MongoQueue.csproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
