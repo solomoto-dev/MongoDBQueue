@@ -1,11 +1,12 @@
 # MongoDBQueue
 Simple mongodb-based messaging queue. Current implementation uses polling instead of tailable cursors.
-Features:
+
+#Features:
 - persisted messaging
 - each receiver gets his own copy of message
 - each processing step is atomic and traceable
 - messages that weren`t processed successfully are being resent
-- IoC independent
+- IoC agnostic
 
 
 
