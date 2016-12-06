@@ -45,8 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacHandlerFactory.cs" />
-    <Compile Include="AutofacComposition.cs" />
+    <Compile Include="AutofacRegistrator.cs" />
+    <Compile Include="AutofacResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Autofac;
 using MongoQueue.Autofac;
 using MongoQueue.Core;
 using MongoQueue.Core.IntegrationAbstractions;
-using MongoQueue.Core.IntegrationDefaults;
 using MongoQueue.Core.Logic;
 using MongoQueue.Core.LogicAbstractions;
 using MongoQueue.Legacy;
@@ -25,22 +23,20 @@ namespace MongoQueueTests.Legacy
 
         protected override void DropCollection(string collectionName)
         {
-            var mongoAgent = AutofacComposition.Container.Resolve<LegacyMongoAgent>();
+            var mongoAgent = Resolver.Get<LegacyMongoAgent>();
             var db = mongoAgent.GetDb();
             db.DropCollection(collectionName);
         }
 
-
         [Test, RunInApplicationDomain]
         public async Task WhenMessageIsResent_SystemProcessesItOnce()
         {
-            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
-            var configuration = (DefaultMessagingConfiguration)AutofacComposition.Container.Resolve<IMessagingConfiguration>();
-            configuration.ResendInterval = TimeSpan.FromSeconds(1);
-            configuration.ResendThreshold = TimeSpan.FromSeconds(1);
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            var configuration = (TestMessagingConfiguration)Resolver.Get<IMessagingConfiguration>();
+            configuration.SetResends(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
             subscriber.Subscribe<ResendHandler, TestMessage>();
-            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
-            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            var publisher = Builder.GetPublisher();
+            var listener = Builder.GetListener();
             await listener.Start("test", CancellationToken.None);
             var testMessage = CreateMessage();
             publisher.Publish(testMessage);
@@ -55,10 +51,10 @@ namespace MongoQueueTests.Legacy
         public async Task WhenMessageIsPosted_ApplicationThatIsNotSubscribedToItDoesntGetIt()
         {
 
-            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            var subscriber = Resolver.Get<IQueueSubscriber>();
             subscriber.Subscribe<AnotherTestHandler, AnotherTestMessage>();
-            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
-            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var listener = Resolver.Get<QueueListener>();
             await listener.Start("test", CancellationToken.None);
             var testMessage = CreateMessage();
             publisher.Publish(testMessage);
@@ -72,10 +68,10 @@ namespace MongoQueueTests.Legacy
         [Test, RunInApplicationDomain]
         public async Task WhenMessageIsPosted_TargetApplicationProcessesItOnce()
         {
-            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            var subscriber = Resolver.Get<IQueueSubscriber>();
             subscriber.Subscribe<TestHandler, TestMessage>();
-            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
-            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var listener = Resolver.Get<QueueListener>();
             await listener.Start("test", CancellationToken.None);
             var testMessage = CreateMessage();
             publisher.Publish(testMessage);
@@ -89,10 +85,10 @@ namespace MongoQueueTests.Legacy
         [Test, RunInApplicationDomain]
         public async Task WhenMessageWithSlightlyDifferentStructureButWithSameTopicIsPosted_ItCanbeProcessed()
         {
-            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            var subscriber = Resolver.Get<IQueueSubscriber>();
             subscriber.Subscribe<SlightlyDifferentTestHandler, SlightlyDifferentTestMessage>();
-            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
-            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var listener = Resolver.Get<QueueListener>();
             await listener.Start("test", CancellationToken.None);
             var testMessage = CreateMessage();
             publisher.Publish(testMessage);
@@ -107,10 +103,10 @@ namespace MongoQueueTests.Legacy
         [TestCase(3)]
         public async Task WhenNMessagesAreSent_NMessagesHandled(int messagesCount)
         {
-            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            var subscriber = Resolver.Get<IQueueSubscriber>();
             subscriber.Subscribe<SlightlyDifferentTestHandler, SlightlyDifferentTestMessage>();
-            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
-            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var listener = Resolver.Get<QueueListener>();
             await listener.Start("test", CancellationToken.None);
             var testMessages = Enumerable.Range(0, messagesCount).Select(x => CreateMessage()).ToArray();
             foreach (var testMessage in testMessages)
@@ -129,10 +125,10 @@ namespace MongoQueueTests.Legacy
         [TestCase(5)]
         public async Task WhenNMessagesAreSent_TheyAreHandledSimultaneously(int messagesCount)
         {
-            var subscriber = AutofacComposition.Container.Resolve<IQueueSubscriber>();
+            var subscriber = Resolver.Get<IQueueSubscriber>();
             subscriber.Subscribe<TimeConsumingHandler, TestMessage>();
-            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
-            var listener = AutofacComposition.Container.Resolve<QueueListener>();
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var listener = Resolver.Get<QueueListener>();
             await listener.Start("test", CancellationToken.None);
             var testMessages = Enumerable.Range(0, messagesCount).Select(x => CreateMessage()).ToArray();
             foreach (var testMessage in testMessages)

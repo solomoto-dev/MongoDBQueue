@@ -68,6 +68,7 @@
     <Compile Include="SlightlyDifferentTestValueObject.cs" />
     <Compile Include="TestHandler.cs" />
     <Compile Include="TestMessage.cs" />
+    <Compile Include="TestMessagingConfiguration.cs" />
     <Compile Include="TestTopicNameProvider.cs" />
     <Compile Include="TestValueObject.cs" />
     <Compile Include="Throttle.cs" />

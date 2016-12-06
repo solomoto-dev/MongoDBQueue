@@ -39,7 +39,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfiguredQueueBuilder.cs" />
     <Compile Include="CoreMessagingDependencyRegistrator.cs" />
+    <Compile Include="IInstanceResolver.cs" />
+    <Compile Include="IntegrationAbstractions\CursorType.cs" />
+    <Compile Include="IRegistrator.cs" />
     <Compile Include="IMessagingDependencyRegistrator.cs" />
     <Compile Include="IntegrationDefaults\ConsoleMessagingLogger.cs" />
     <Compile Include="Logic\DefaultQueueSubscriber.cs" />
@@ -53,7 +57,7 @@
     <Compile Include="LogicAbstractions\IQueuePublisher.cs" />
     <Compile Include="LogicAbstractions\IQueueSubscriber.cs" />
     <Compile Include="AgentAbstractions\ISubscriptionAgent.cs" />
-    <Compile Include="IntegrationDefaults\ActivatorMessageHandlerFactory.cs" />
+    <Compile Include="IntegrationDefaults\MessageHandlerFactory.cs" />
     <Compile Include="LogicAbstractions\IHandler.cs" />
     <Compile Include="LogicAbstractions\ITopicNameProvider.cs" />
     <Compile Include="IntegrationAbstractions\IMessageHandlerFactory.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="Entities\Subscriber.cs" />
     <Compile Include="Logic\DefaultTopicNameProvider.cs" />
     <Compile Include="Logic\UnprocessedMessagesResender.cs" />
+    <Compile Include="QueueConfigurator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

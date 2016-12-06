@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac;
 using MongoQueue.Autofac;
-using MongoQueue.Core.IntegrationAbstractions;
-using MongoQueue.Core.IntegrationDefaults;
-using MongoQueue.Core.LogicAbstractions;
+using MongoQueue.Core;
 using MongoQueue.Legacy;
 
 namespace LegacyWriter
@@ -18,11 +15,10 @@ namespace LegacyWriter
 
         static async Task DoStuff()
         {
-            AutofacComposition.Compose(new LegacyMessagingDependencyRegistrator(), b =>
-            {
-                b.RegisterInstance(new DefaultMessagingConfiguration("mongodb://localhost:27017","dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30))).As<IMessagingConfiguration>();
-            });
-            var publisher = AutofacComposition.Container.Resolve<IQueuePublisher>();
+            var autofacRegistrator = new AutofacRegistrator();
+            var configurator = new QueueConfigurator(autofacRegistrator, new LegacyMessagingDependencyRegistrator());
+            var builder = configurator.Build(autofacRegistrator.CreateResolver());
+            var publisher = builder.GetPublisher();
             while (true)
             {
                 try

@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace MongoQueue.Core
+﻿namespace MongoQueue.Core
 {
     public interface IMessagingDependencyRegistrator
     {
-        void RegisterDefault(Action<Type, Type, bool> registerAbstract, Action<Type> registerClass);
+        void RegisterDefault(IRegistrator registrator);
     }
 }

@@ -17,7 +17,7 @@ namespace MongoQueue.Core.Logic
         private readonly IDocumentMappingInitializer _documentMappingInitializer;
         private readonly ISubscriptionAgent _subscriptionAgent;
         private readonly ICollectionCreator _collectionCreator;
-
+        private bool _isStarted;
         public QueueListener(
             IMessageTypesCache messageTypesCache,
             IMessagingLogger messagingLogger,
@@ -41,6 +41,12 @@ namespace MongoQueue.Core.Logic
 
         public async Task Start(string route, CancellationToken cancellationToken)
         {
+            //TODO::VZ:: refactor
+            if (_isStarted)
+            {
+                throw new InvalidOperationException("listener is already running");
+            }
+            _isStarted = true;
             _documentMappingInitializer.Initialize();
             if (route.Contains(" "))
             {
