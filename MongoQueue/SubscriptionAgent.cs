@@ -43,7 +43,8 @@ namespace MongoQueue
             var existingSubscriber = await (await subscribersCollection.FindAsync(nameFilter)).FirstOrDefaultAsync();
             if (existingSubscriber != null)
             {
-                await subscribersCollection.UpdateOneAsync(nameFilter, Builders<Subscriber>.Update.Set(x => x.Topics, topics));
+                subscriber.Id = existingSubscriber.Id;
+                await subscribersCollection.ReplaceOneAsync(nameFilter, subscriber);
             }
             else
             {

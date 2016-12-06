@@ -35,7 +35,8 @@ namespace MongoQueue.Legacy
             var existingSubscriber = subscribersCollection.Find(query).FirstOrDefault();
             if (existingSubscriber != null)
             {
-                subscribersCollection.Update(query, Update<Subscriber>.Set(x => x.Topics, topics));
+                subscriber.Id = existingSubscriber.Id;
+                subscribersCollection.Update(query, Update<Subscriber>.Replace(subscriber));
             }
             else
             {
