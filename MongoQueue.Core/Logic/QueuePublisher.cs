@@ -30,30 +30,20 @@ namespace MongoQueue.Core.Logic
 
         public void Publish<TMessage>(TMessage message)
         {
-            var sw = Stopwatch.StartNew();
             var topic = _topicNameProvider.Get<TMessage>();
-
-            var subscribers = _subscriptionAgent.GetSubscribers(topic);
-
-            if (subscribers != null && subscribers.Any())
-            {
-                foreach (var subscriber in subscribers)
-                {
-                    var payload = JsonConvert.SerializeObject(message);
-                    _publishingAgent.PublishToSubscriber(subscriber.Name, topic, payload);
-                }
-            }
-            else
-            {
-                _messagingLogger.Debug($"no subsriptions for {topic}");
-            }
-            _messagingLogger.Debug($"{topic} sent in {sw.ElapsedMilliseconds}");
+            Publish(topic, message);
         }
 
         public async Task PublishAsync<TMessage>(TMessage message)
         {
-            var sw = Stopwatch.StartNew();
             var topic = _topicNameProvider.Get<TMessage>();
+            await PublishAsync(topic, message);
+        }
+
+        public async Task PublishAsync(string topic, object message)
+        {
+            var sw = Stopwatch.StartNew();
+
             var subscribers = await _subscriptionAgent.GetSubscribersAsync(topic);
 
             if (subscribers != null)
@@ -64,6 +54,27 @@ namespace MongoQueue.Core.Logic
                     await _publishingAgent.PublishToSubscriberAsync(subscriber.Name, topic, payload);
                 }
                 await Task.Delay(10);
+            }
+            else
+            {
+                _messagingLogger.Debug($"no subsriptions for {topic}");
+            }
+            _messagingLogger.Debug($"{topic} sent in {sw.ElapsedMilliseconds}");
+        }
+
+        public void Publish(string topic, object message)
+        {
+            var sw = Stopwatch.StartNew();
+
+            var subscribers = _subscriptionAgent.GetSubscribers(topic);
+
+            if (subscribers != null && subscribers.Any())
+            {
+                foreach (var subscriber in subscribers)
+                {
+                    var payload = JsonConvert.SerializeObject(message);
+                    _publishingAgent.PublishToSubscriber(subscriber.Name, topic, payload);
+                }
             }
             else
             {
