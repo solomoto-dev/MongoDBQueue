@@ -99,6 +99,27 @@ namespace MongoQueueTests.Legacy
                 );
         }
 
+
+        [Test, RunInApplicationDomain]
+        public async Task WhenMessageResentMoreThan10Times_ResendingStops()
+        {
+
+            var configuration = (TestMessagingConfiguration)Resolver.Get<IMessagingConfiguration>();
+            configuration.SetResends(TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.5));
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            subscriber.Subscribe<AlwaysErrorHandler, TestMessage>();
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var listener = Resolver.Get<QueueListener>();
+            await listener.Start("test", CancellationToken.None);
+            var testMessage = CreateMessage();
+            publisher.Publish(testMessage);
+            Throttle.Assert(
+                () => ResultHolder.Count == 11,
+                TimeSpan.FromSeconds(15),
+                TimeSpan.FromSeconds(20)
+                );
+        }
+
         [Test, RunInApplicationDomain]
         [TestCase(3)]
         public async Task WhenNMessagesAreSent_NMessagesHandled(int messagesCount)
