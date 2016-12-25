@@ -21,6 +21,7 @@ namespace MongoQueueTests.Common
                 .RegisterHandler<TestHandler>()
                 .RegisterHandler<SlightlyDifferentTestHandler>()
                 .RegisterHandler<ResendHandler>()
+                .RegisterHandler<TransactionResendHandler>()
                 .RegisterHandler<TimeConsumingHandler>();
             Resolver = autofacRegistrator.CreateResolver();
             Builder = configurator.Build(Resolver);

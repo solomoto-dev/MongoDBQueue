@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfiguredQueueBuilder.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Logic\DefaultTopicNameProvider.cs" />
     <Compile Include="Logic\UnprocessedMessagesResender.cs" />
     <Compile Include="QueueConfigurator.cs" />
+    <Compile Include="TransactionMessageHandlerBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

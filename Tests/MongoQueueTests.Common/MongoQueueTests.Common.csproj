@@ -73,6 +73,7 @@
     <Compile Include="TestValueObject.cs" />
     <Compile Include="Throttle.cs" />
     <Compile Include="ThrottleException.cs" />
+    <Compile Include="TransactionResendHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">

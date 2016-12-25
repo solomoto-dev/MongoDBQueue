@@ -8,6 +8,7 @@ namespace MongoQueue.Core.IntegrationAbstractions
         string Database { get; }
         TimeSpan ResendInterval { get; }
         TimeSpan ResendThreshold { get; }
+        int MaxResendsThreshold { get; }
         CursorType CursorType { get; }
 
     }

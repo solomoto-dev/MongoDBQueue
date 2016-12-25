@@ -6,7 +6,7 @@ namespace MongoQueueTests.Common
 {
     public class TestMessagingConfiguration : DefaultMessagingConfiguration
     {
-        public TestMessagingConfiguration(string connectionString, string database, TimeSpan resendInterval, TimeSpan resendThreshold, CursorType cursorType) : base(connectionString, database, resendInterval, resendThreshold, cursorType)
+        public TestMessagingConfiguration(string connectionString, string database, TimeSpan resendInterval, TimeSpan resendThreshold, CursorType cursorType, int maxResendsThreshold) : base(connectionString, database, resendInterval, resendThreshold, cursorType, maxResendsThreshold)
         {
         }
 
@@ -18,7 +18,7 @@ namespace MongoQueueTests.Common
 
         public static TestMessagingConfiguration Create()
         {
-            return new TestMessagingConfiguration("mongodb://localhost:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling);
+            return new TestMessagingConfiguration("mongodb://localhost:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10);
         }
     }
 }

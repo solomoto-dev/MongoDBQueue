@@ -48,6 +48,25 @@ namespace MongoQueueTests.Legacy
         }
 
         [Test, RunInApplicationDomain]
+        public async Task WhenMessageIsResentInTransactionHandler_SystemProcessesItOnce()
+        {
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            var configuration = (TestMessagingConfiguration)Resolver.Get<IMessagingConfiguration>();
+            configuration.SetResends(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+            subscriber.Subscribe<TransactionResendHandler, TestMessage>();
+            var publisher = Builder.GetPublisher();
+            var listener = Builder.GetListener();
+            await listener.Start("test", CancellationToken.None);
+            var testMessage = CreateMessage();
+            publisher.Publish(testMessage);
+            Throttle.Assert(
+                () => ResultHolder.Contains(testMessage.Id + "resend") && ResultHolder.Count == 1,
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(6)
+                );
+        }
+
+        [Test, RunInApplicationDomain]
         public async Task WhenMessageIsPosted_ApplicationThatIsNotSubscribedToItDoesntGetIt()
         {
 
@@ -96,6 +115,26 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
+                );
+        }
+
+
+        [Test, RunInApplicationDomain]
+        public async Task WhenMessageResentMoreThan10Times_ResendingStops()
+        {
+            var configuration = (TestMessagingConfiguration)Resolver.Get<IMessagingConfiguration>();
+            configuration.SetResends(TimeSpan.FromSeconds(0.5), TimeSpan.FromSeconds(0.5));
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            subscriber.Subscribe<AlwaysErrorHandler, TestMessage>();
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var listener = Resolver.Get<QueueListener>();
+            await listener.Start("test", CancellationToken.None);
+            var testMessage = CreateMessage();
+            publisher.Publish(testMessage);
+            Throttle.Assert(
+                () => ResultHolder.Count == 11,
+                TimeSpan.FromSeconds(15),
+                TimeSpan.FromSeconds(20)
                 );
         }
 
