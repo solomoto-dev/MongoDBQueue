@@ -20,6 +20,7 @@ namespace MongoQueueTests.Common
                 .SetTopicProvider<TestTopicNameProvider>()
                 .RegisterHandler<TestHandler>()
                 .RegisterHandler<SlightlyDifferentTestHandler>()
+                .RegisterHandler<AlwaysErrorHandler>()
                 .RegisterHandler<ResendHandler>()
                 .RegisterHandler<TransactionResendHandler>()
                 .RegisterHandler<TimeConsumingHandler>();

@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlwaysErrorHandler.cs" />
     <Compile Include="AnotherTestHandler.cs" />
     <Compile Include="AnotherTestMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
