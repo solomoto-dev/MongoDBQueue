@@ -58,7 +58,15 @@ namespace MongoQueue.Core.Logic
                 foreach (var envelope in notProcessed)
                 {
                     var resendId = await _unprocessedMessagesAgent.Resend(route, envelope, cancellationToken);
-                    _messagingLogger.Debug($"{route} resent {envelope.Id} as {resendId}");
+                    if (envelope.Id != resendId)
+                    {
+                        _messagingLogger.Debug($"{route} resent {envelope.Id} as {resendId}");
+                    }
+                    else
+                    {
+                        _messagingLogger.Debug($"{route} resent threshold achieved for {resendId}");
+                    }
+
                 }
             }
             catch (Exception e)

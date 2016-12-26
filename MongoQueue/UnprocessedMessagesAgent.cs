@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
-using MongoQueue.Core;
 using MongoQueue.Core.AgentAbstractions;
 using MongoQueue.Core.Entities;
 using MongoQueue.Core.IntegrationAbstractions;
@@ -45,6 +44,18 @@ namespace MongoQueue
         public async Task<string> Resend(string route, Envelope original, CancellationToken cancellationToken)
         {
             var collection = _mongoAgent.GetEnvelops(route);
+            if (original.ResentCount >= _messagingConfiguration.MaxResendsThreshold)
+            {
+                var dontResendsUpdateDefinition = Builders<Envelope>.Update
+                .Set(x => x.ProcessedAt, DateTime.UtcNow)
+                .Set(x => x.IsProcessed, true)
+                .Set(x => x.ResendId, original.Id);
+                await
+                collection.UpdateOneAsync(Builders<Envelope>.Filter.Eq(x => x.Id, original.Id), dontResendsUpdateDefinition,
+                    null, cancellationToken);
+                return original.Id;
+            }
+
             var resend = new Envelope(original.Topic, original.Payload, original.Id, original.ResentCount + 1);
             await collection.InsertOneAsync(resend, null, cancellationToken);
             var updateDefinition = Builders<Envelope>.Update

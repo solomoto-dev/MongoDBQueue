@@ -43,7 +43,7 @@ namespace MongoQueue.Legacy
         public async Task<string> Resend(string route, Envelope original, CancellationToken cancellationToken)
         {
             var collection = _mongoAgent.GetEnvelops(route);
-            if (original.ResentCount >= 10)
+            if (original.ResentCount >= _messagingConfiguration.MaxResendsThreshold)
             {
                 collection.Update(Query<Envelope>.EQ(x => x.Id, original.Id),
                     Update<Envelope>
