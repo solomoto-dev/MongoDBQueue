@@ -21,5 +21,10 @@ namespace MongoQueue.Autofac
         {
             return _container.Resolve(t);
         }
+
+        public ILifetimeScope CreateLifeTimeScope()
+        {
+            return _container.BeginLifetimeScope();
+        }
     }
 }

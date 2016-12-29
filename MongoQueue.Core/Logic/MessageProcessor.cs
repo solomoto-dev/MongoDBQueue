@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Autofac;
 using MongoQueue.Core.IntegrationAbstractions;
 using MongoQueue.Core.LogicAbstractions;
 using Newtonsoft.Json;
@@ -13,18 +14,21 @@ namespace MongoQueue.Core.Logic
         private readonly IMessageTypesCache _messageTypesCache;
         private readonly IMessageHandlerFactory _messageHandlerFactory;
         private readonly IMessagingLogger _messagingLogger;
+        private readonly IInstanceResolver _instanceResolver;
 
         public MessageProcessor(
             IMessageHandlersCache messageHandlersCache,
             IMessageTypesCache messageTypesCache,
             IMessageHandlerFactory messageHandlerFactory,
-            IMessagingLogger messagingLogger
+            IMessagingLogger messagingLogger,
+            IInstanceResolver instanceResolver
         )
         {
             _messageHandlersCache = messageHandlersCache;
             _messageTypesCache = messageTypesCache;
             _messageHandlerFactory = messageHandlerFactory;
             _messagingLogger = messagingLogger;
+            _instanceResolver = instanceResolver;
         }
 
         public async void Process(string route, string messageId, string topic, string payload, bool resend,
@@ -34,11 +38,14 @@ namespace MongoQueue.Core.Logic
 
             try
             {
-                var type = _messageTypesCache.Get(topic);
-                var message = JsonConvert.DeserializeObject(payload, type);
-                var handlerType = _messageHandlersCache.Get(topic);
-                var handlerInstance = _messageHandlerFactory.Create(handlerType);
-                await handlerInstance.Handle(route, messageId, message, resend, cancellationToken);
+                using (var scope = _instanceResolver.CreateLifeTimeScope())
+                {
+                    var type = _messageTypesCache.Get(topic);
+                    var message = JsonConvert.DeserializeObject(payload, type);
+                    var handlerType = _messageHandlersCache.Get(topic);
+                    var handlerInstance = (IHandler)scope.Resolve(handlerType);
+                    await handlerInstance.Handle(route, messageId, message, resend, cancellationToken);
+                }
             }
             catch (Exception e)
             {
