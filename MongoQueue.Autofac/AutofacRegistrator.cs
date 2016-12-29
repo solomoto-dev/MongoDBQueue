@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Runtime.InteropServices;
+using Autofac;
 using MongoQueue.Core;
 
 namespace MongoQueue.Autofac
@@ -12,7 +13,7 @@ namespace MongoQueue.Autofac
             _container = new ContainerBuilder();
         }
 
-        public void Register<TAbst, TImpl>() where TImpl : TAbst
+        public void Register<TAbst, TImpl>() where TImpl : class, TAbst
         {
             _container.RegisterType<TImpl>().As<TAbst>();
         }
@@ -22,7 +23,7 @@ namespace MongoQueue.Autofac
             _container.RegisterType<TImpl>();
         }
 
-        public void RegisterSingleton<TAbst, TImpl>() where TImpl : TAbst
+        public void RegisterSingleton<TAbst, TImpl>() where TImpl : class, TAbst
         {
             _container.RegisterType<TImpl>().As<TAbst>().SingleInstance();
         }
