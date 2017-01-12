@@ -48,6 +48,7 @@
     <Compile Include="CoreMessagingDependencyRegistrator.cs" />
     <Compile Include="IInstanceResolver.cs" />
     <Compile Include="IntegrationAbstractions\CursorType.cs" />
+    <Compile Include="IoC\CurrentHandlerScopeHolder.cs" />
     <Compile Include="IRegistrator.cs" />
     <Compile Include="IMessagingDependencyRegistrator.cs" />
     <Compile Include="IntegrationDefaults\ConsoleMessagingLogger.cs" />

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using Autofac;
 using MongoQueue.Core.IntegrationAbstractions;
+using MongoQueue.Core.IoC;
 using MongoQueue.Core.LogicAbstractions;
 using Newtonsoft.Json;
 
@@ -12,21 +13,18 @@ namespace MongoQueue.Core.Logic
     {
         private readonly IMessageHandlersCache _messageHandlersCache;
         private readonly IMessageTypesCache _messageTypesCache;
-        private readonly IMessageHandlerFactory _messageHandlerFactory;
         private readonly IMessagingLogger _messagingLogger;
         private readonly IInstanceResolver _instanceResolver;
 
         public MessageProcessor(
             IMessageHandlersCache messageHandlersCache,
             IMessageTypesCache messageTypesCache,
-            IMessageHandlerFactory messageHandlerFactory,
             IMessagingLogger messagingLogger,
             IInstanceResolver instanceResolver
         )
         {
             _messageHandlersCache = messageHandlersCache;
             _messageTypesCache = messageTypesCache;
-            _messageHandlerFactory = messageHandlerFactory;
             _messagingLogger = messagingLogger;
             _instanceResolver = instanceResolver;
         }
@@ -40,6 +38,7 @@ namespace MongoQueue.Core.Logic
             {
                 using (var scope = _instanceResolver.CreateLifeTimeScope())
                 {
+                    scope.Resolve<ICurrentHandlerScopeHolder>().Init(scope);
                     var type = _messageTypesCache.Get(topic);
                     var message = JsonConvert.DeserializeObject(payload, type);
                     var handlerType = _messageHandlersCache.Get(topic);
