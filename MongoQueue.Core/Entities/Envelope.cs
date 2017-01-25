@@ -2,6 +2,14 @@
 
 namespace MongoQueue.Core.Entities
 {
+    public class DeadLetter : IDocument
+    {
+        public string Id { get; set; }
+        public string[] ResentTo { get; set; }
+        public string Payload { get; set; }
+        public string Topic { get; set; }
+    }
+
     public class Envelope : IDocument
     {
         public string Id { get; set; }

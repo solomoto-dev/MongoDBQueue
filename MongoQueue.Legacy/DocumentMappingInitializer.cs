@@ -18,6 +18,7 @@ namespace MongoQueue.Legacy
 
             foreach (var type in mappings)
             {
+                if(BsonClassMap.IsClassMapRegistered(type)) continue;
                 var map = new DocumentClassMap(type);
                 map.AutoMap();
                 map.SetIgnoreExtraElements(true);

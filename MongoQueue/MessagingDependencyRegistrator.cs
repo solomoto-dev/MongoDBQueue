@@ -14,6 +14,7 @@ namespace MongoQueue
             registrator.Register<IDocumentMappingInitializer, DocumentMappingInitializer>();
             registrator.Register<ISubscriptionAgent, SubscriptionAgent>();
             registrator.Register<IPublishingAgent, PublishingAgent>();
+            registrator.Register<IDeadLettersAgent, DeadLettersAgent>();
             registrator.Register<ICollectionCreator, CollectionCreator>();
 
             registrator.Register<MongoAgent>();

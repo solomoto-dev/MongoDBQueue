@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectionCreator.cs" />
+    <Compile Include="DeadLettersAgent.cs" />
     <Compile Include="DocumentClassMap.cs" />
     <Compile Include="DocumentMappingInitializer.cs" />
     <Compile Include="ListeningAgent.cs" />

@@ -28,7 +28,7 @@ namespace MongoQueue.Legacy
             return GetCollection<Subscriber>();
         }
 
-        private MongoCollection<TDocument> GetCollection<TDocument>(string name = null)
+        public MongoCollection<TDocument> GetCollection<TDocument>(string name = null)
         {
             name = name ?? typeof(TDocument).Name;
             var db = GetDb();

@@ -14,6 +14,7 @@ namespace MongoQueue.Legacy
             registrator.Register<IDocumentMappingInitializer, DocumentMappingInitializer>();
             registrator.Register<ISubscriptionAgent, LegacySubscriptionAgent>();
             registrator.Register<IPublishingAgent, LegacyPublishingAgent>();
+            registrator.Register<IDeadLettersAgent, LegacyDeadLettersAgent>();
             registrator.Register<ICollectionCreator, LegacyCollectionCreator>();
             registrator.Register<LegacyMongoAgent>();
             IdGenerator.SetGenerator(() => ObjectId.GenerateNewId().ToString());

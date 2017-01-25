@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson.Serialization;
-using MongoQueue.Core;
 using MongoQueue.Core.AgentAbstractions;
 using MongoQueue.Core.Entities;
 
@@ -19,6 +18,7 @@ namespace MongoQueue
 
             foreach (var type in mappings)
             {
+                if(BsonClassMap.IsClassMapRegistered(type)) continue;
                 var map = new DocumentClassMap(type);
                 map.AutoMap();
                 map.SetIgnoreExtraElements(true);

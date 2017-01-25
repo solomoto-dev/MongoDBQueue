@@ -14,18 +14,19 @@ namespace MongoQueue.Core.Logic
         private readonly IMessagingLogger _messagingLogger;
         private readonly IPublishingAgent _publishingAgent;
         private readonly ISubscriptionAgent _subscriptionAgent;
+        private readonly IDeadLettersAgent _deadLettersAgent;
 
         public QueuePublisher(
             ITopicNameProvider topicNameProvider,
             IMessagingLogger messagingLogger,
             IPublishingAgent publishingAgent,
-            ISubscriptionAgent subscriptionAgent
-        )
+            ISubscriptionAgent subscriptionAgent, IDeadLettersAgent deadLettersAgent)
         {
             _topicNameProvider = topicNameProvider;
             _messagingLogger = messagingLogger;
             _publishingAgent = publishingAgent;
             _subscriptionAgent = subscriptionAgent;
+            _deadLettersAgent = deadLettersAgent;
         }
 
         public void Publish<TMessage>(TMessage message)
@@ -46,18 +47,18 @@ namespace MongoQueue.Core.Logic
 
             var subscribers = await _subscriptionAgent.GetSubscribersAsync(topic);
 
+            var payload = JsonConvert.SerializeObject(message);
             if (subscribers != null)
             {
                 foreach (var subscriber in subscribers)
                 {
-                    var payload = JsonConvert.SerializeObject(message);
                     await _publishingAgent.PublishToSubscriberAsync(subscriber.Name, topic, payload);
                 }
-                await Task.Delay(10);
             }
             else
             {
                 _messagingLogger.Debug($"no subsriptions for {topic}");
+                await _deadLettersAgent.PublishAsync(topic, payload);
             }
             _messagingLogger.Debug($"{topic} sent in {sw.ElapsedMilliseconds}");
         }
@@ -65,20 +66,20 @@ namespace MongoQueue.Core.Logic
         public void Publish(string topic, object message)
         {
             var sw = Stopwatch.StartNew();
+            var payload = JsonConvert.SerializeObject(message);
 
-            var subscribers = _subscriptionAgent.GetSubscribers(topic);
-
+            var subscribers = _subscriptionAgent.GetSubscribers(topic);            
             if (subscribers != null && subscribers.Any())
             {
                 foreach (var subscriber in subscribers)
                 {
-                    var payload = JsonConvert.SerializeObject(message);
                     _publishingAgent.PublishToSubscriber(subscriber.Name, topic, payload);
                 }
             }
             else
             {
                 _messagingLogger.Debug($"no subsriptions for {topic}");
+                _deadLettersAgent.Publish(topic, payload);
             }
             _messagingLogger.Debug($"{topic} sent in {sw.ElapsedMilliseconds}");
         }

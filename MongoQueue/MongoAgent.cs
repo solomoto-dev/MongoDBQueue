@@ -31,7 +31,7 @@ namespace MongoQueue
             return GetCollection<Subscriber>();
         }
 
-        private IMongoCollection<TDocument> GetCollection<TDocument>(string name = null)
+        public IMongoCollection<TDocument> GetCollection<TDocument>(string name = null)
         {
             name = name ?? typeof(TDocument).Name;
             var db = GetDb();

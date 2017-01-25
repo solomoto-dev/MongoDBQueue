@@ -46,6 +46,7 @@
     <Compile Include="DocumentClassMap.cs" />
     <Compile Include="DocumentMappingInitializer.cs" />
     <Compile Include="LegacyCollectionCreator.cs" />
+    <Compile Include="LegacyDeadLettersAgent.cs" />
     <Compile Include="LegacyListeningAgent.cs" />
     <Compile Include="LegacyMongoAgent.cs" />
     <Compile Include="LegacyMessagingDependencyRegistrator.cs" />

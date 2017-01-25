@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoQueue.Autofac;
 using MongoQueue.Core;
 using MongoQueue.Core.IntegrationAbstractions;
 using MongoQueue.Core.Logic;
@@ -159,7 +158,6 @@ namespace MongoQueueTests.Legacy
                 );
         }
 
-
         [Test, RunInApplicationDomain]
         [TestCase(5)]
         public async Task WhenNMessagesAreSent_TheyAreHandledSimultaneously(int messagesCount)
@@ -176,6 +174,23 @@ namespace MongoQueueTests.Legacy
             }
             Throttle.Assert(
                 () => ResultHolder.Contains(testMessages.Select(x => x.Id).ToArray()) && ResultHolder.Count == testMessages.Length,
+                TimeSpan.FromSeconds(4),
+                TimeSpan.FromSeconds(5)
+                );
+        }
+
+        [Test, RunInApplicationDomain]
+        public async Task WhenMessageSendWithoutSubscribers_ThenMessageShouldBeSentAfterSubscribing()
+        {            
+            var publisher = Resolver.Get<IQueuePublisher>();            
+            var testMessage = CreateMessage();
+            publisher.Publish(testMessage);
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            subscriber.Subscribe<TimeConsumingHandler, TestMessage>();
+            var listener = Resolver.Get<QueueListener>();
+            await listener.Start("test", CancellationToken.None);
+            Throttle.Assert(
+                () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(4),
                 TimeSpan.FromSeconds(5)
                 );

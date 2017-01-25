@@ -40,6 +40,7 @@ namespace MongoQueueTests.Common
             DropCollection("test_Envelops");
             DropCollection("Subscriber");
             DropCollection("test2_Envelops");
+            DropCollection("DeadLetter");
             ResultHolder.Clear();
         }
 

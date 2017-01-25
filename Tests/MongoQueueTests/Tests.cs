@@ -139,5 +139,22 @@ namespace MongoQueueTests
                 TimeSpan.FromSeconds(5)
                 );
         }
+
+        [Test, RunInApplicationDomain]
+        public async Task WhenMessageSendWithoutSubscribers_ThenMessageShouldBeSentAfterSubscribing()
+        {
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var testMessage = CreateMessage();
+            publisher.Publish(testMessage);
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            subscriber.Subscribe<TimeConsumingHandler, TestMessage>();
+            var listener = Resolver.Get<QueueListener>();
+            await listener.Start("test", CancellationToken.None);
+            Throttle.Assert(
+                () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
+                TimeSpan.FromSeconds(4),
+                TimeSpan.FromSeconds(5)
+                );
+        }
     }
 }
