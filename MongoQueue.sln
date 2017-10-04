@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueue.Core", "MongoQueue.Core\MongoQueue.Core.csproj", "{6784C9FF-07BC-42AF-B261-2DEA955B6C82}"
 EndProject
@@ -40,6 +40,10 @@ EndProject
 Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "NuGet.MongoDBQueue", "Nuget\NuGet.MongoDBQueue\NuGet.MongoDBQueue.nuproj", "{11CA7974-FC01-42CF-BF56-C114CB4FD81B}"
 EndProject
 Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "NuGet.MongoDBQueue.Legacy", "Nuget\NuGet.MongoDBQueue.Legacy\NuGet.MongoDBQueue.Legacy.nuproj", "{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueCore", "MongoQueueCore\MongoQueueCore.csproj", "{CCD4B1B7-4DC6-4990-A8FE-A291E1A5FC10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueCore.Core", "MongoQueueCore.Core\MongoQueueCore.Core.csproj", "{54AB8185-D4C5-4CE4-9602-811B82A77FA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +111,14 @@ Global
 		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD4B1B7-4DC6-4990-A8FE-A291E1A5FC10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD4B1B7-4DC6-4990-A8FE-A291E1A5FC10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD4B1B7-4DC6-4990-A8FE-A291E1A5FC10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD4B1B7-4DC6-4990-A8FE-A291E1A5FC10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54AB8185-D4C5-4CE4-9602-811B82A77FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54AB8185-D4C5-4CE4-9602-811B82A77FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54AB8185-D4C5-4CE4-9602-811B82A77FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54AB8185-D4C5-4CE4-9602-811B82A77FA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,5 +135,8 @@ Global
 		{6176FA62-A8C5-4183-9EAA-A6CD11A139B0} = {48904519-E50B-4ABB-B786-57D78AF4A8A0}
 		{11CA7974-FC01-42CF-BF56-C114CB4FD81B} = {F19101BF-2B26-49C4-89BB-82A7F90C8FD2}
 		{40CEA4AB-83CF-420D-B958-9A2F8AD20F0E} = {F19101BF-2B26-49C4-89BB-82A7F90C8FD2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {450C5F9A-3111-4274-A65B-4B8EF0DDE57B}
 	EndGlobalSection
 EndGlobal

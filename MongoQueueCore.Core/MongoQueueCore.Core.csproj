@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ICollectionCreator.cs" />
+    <Compile Remove="IDeadLettersAgent.cs" />
+    <Compile Remove="IDocumentMappingInitializer.cs" />
+    <Compile Remove="IListeningAgent.cs" />
+    <Compile Remove="IMessageStatusManager.cs" />
+    <Compile Remove="IPublishingAgent.cs" />
+    <Compile Remove="ISubscriptionAgent.cs" />
+    <Compile Remove="IUnprocessedMessagesAgent.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+</Project>
