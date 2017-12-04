@@ -15,7 +15,7 @@ namespace MongoQueueTests.Legacy
     [TestFixture]
     public class Tests : QueueTestsBase
     {
-        protected override IMessagingDependencyRegistrator GetRegistrtor()
+        protected override IMessagingDependencyRegistrator GetRegistrator()
         {
             return new LegacyMessagingDependencyRegistrator();
         }

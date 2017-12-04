@@ -2,9 +2,12 @@
 using System.Linq;
 using System.Threading;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using MongoQueue.Autofac;
 using MongoQueue.Core;
 using MongoQueue.Legacy;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LegacyReader
 {
@@ -18,7 +21,18 @@ namespace LegacyReader
                 route = args[0];
             }
 
-            var autofacRegistrator = new AutofacRegistrator();
+            var containerBuilder = new ContainerBuilder();
+            var autofacRegistrator = new AutofacRegistrator(containerBuilder);
+
+            var serviceProvider = new ServiceCollection
+            {
+                new ServiceDescriptor(
+                    typeof(IContainer),
+                    provider => autofacRegistrator.Container,
+                    ServiceLifetime.Singleton)
+            };
+
+            containerBuilder.Populate(serviceProvider);
             var configurator = new QueueConfigurator(autofacRegistrator, new LegacyMessagingDependencyRegistrator())
                 .RegisterHandler<DefaultHandler>();
 

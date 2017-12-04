@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace MongoQueueTests
     [TestFixture]
     public class Test : QueueTestsBase
     {
-        protected override IMessagingDependencyRegistrator GetRegistrtor()
+        protected override IMessagingDependencyRegistrator GetRegistrator()
         {
             return new MessagingDependencyRegistrator();
         }
@@ -27,7 +27,7 @@ namespace MongoQueueTests
             db.DropCollection(collectionName);
         }
 
-        [Test, RunInApplicationDomain]
+        [Test]
         public async Task WhenMessageIsResent_SystemProcessesItOnce()
         {
             var subscriber = Builder.GetSubscriber();
@@ -46,7 +46,7 @@ namespace MongoQueueTests
                 );
         }
 
-        [Test, RunInApplicationDomain]
+        [Test]
         public async Task WhenMessageIsPosted_ApplicationThatIsNotSubscribedToItDoesntGetIt()
         {
 
@@ -64,7 +64,7 @@ namespace MongoQueueTests
                 );
         }
 
-        [Test, RunInApplicationDomain]
+        [Test]
         public async Task WhenMessageIsPosted_TargetApplicationProcessesItOnce()
         {
             var subscriber = Resolver.Get<IQueueSubscriber>();
@@ -81,7 +81,7 @@ namespace MongoQueueTests
                 );
         }
 
-        [Test, RunInApplicationDomain]
+        [Test]
         public async Task WhenMessageWithSlightlyDifferentStructureButWithSameTopicIsPosted_ItCanbeProcessed()
         {
             var subscriber = Resolver.Get<IQueueSubscriber>();
@@ -97,7 +97,7 @@ namespace MongoQueueTests
                 TimeSpan.FromSeconds(6)
                 );
         }
-        [Test, RunInApplicationDomain]
+        [Test]
         [TestCase(3)]
         public async Task WhenNMessagesAreSent_NMessagesHandled(int messagesCount)
         {
@@ -119,7 +119,7 @@ namespace MongoQueueTests
         }
 
 
-        [Test, RunInApplicationDomain]
+        [Test]
         [TestCase(5)]
         public async Task WhenNMessagesAreSent_TheyAreHandledSimultaneously(int messagesCount)
         {
@@ -140,7 +140,7 @@ namespace MongoQueueTests
                 );
         }
 
-        [Test, RunInApplicationDomain]
+        [Test]
         public async Task WhenMessageSendWithoutSubscribers_ThenMessageShouldBeSentAfterSubscribing()
         {
             var publisher = Resolver.Get<IQueuePublisher>();

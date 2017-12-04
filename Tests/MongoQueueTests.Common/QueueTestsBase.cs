@@ -1,4 +1,8 @@
 ﻿using System;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoQueue.Autofac;
 using MongoQueue.Core;
 using NUnit.Framework;
@@ -13,8 +17,19 @@ namespace MongoQueueTests.Common
         [SetUp]
         public void Setup()
         {
-            var autofacRegistrator = new AutofacRegistrator();
-            var configurator = new QueueConfigurator(autofacRegistrator, GetRegistrtor());
+            var containerBuilder = new ContainerBuilder();
+            var autofacRegistrator = new AutofacRegistrator(containerBuilder);
+
+            var serviceProvider = new ServiceCollection
+            {
+                new ServiceDescriptor(
+                    typeof(IContainer),
+                    provider => autofacRegistrator.Container,
+                    ServiceLifetime.Singleton)
+            };
+
+            containerBuilder.Populate(serviceProvider);
+            var configurator = new QueueConfigurator(autofacRegistrator, GetRegistrator());
             configurator
                 .SetConfigurationProvider(TestMessagingConfiguration.Create())
                 .SetTopicProvider<TestTopicNameProvider>()
@@ -44,7 +59,7 @@ namespace MongoQueueTests.Common
             ResultHolder.Clear();
         }
 
-        protected abstract IMessagingDependencyRegistrator GetRegistrtor();
+        protected abstract IMessagingDependencyRegistrator GetRegistrator();
         protected abstract void DropCollection(string collectionName);
 
         protected TestMessage CreateMessage()
