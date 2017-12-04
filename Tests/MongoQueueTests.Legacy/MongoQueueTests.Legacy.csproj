@@ -153,18 +153,21 @@
       <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
+      <Project>{6d9352e3-6f3b-4fc2-978b-f4957a16e062}</Project>
+      <Name>MongoQueue.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Legacy\MongoQueue.Legacy.csproj">
       <Project>{0F118DCF-48E5-42B5-AC8C-15160AD70611}</Project>
       <Name>MongoQueue.Legacy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MongoQueueCore.Core\MongoQueue.Core.csproj">
-      <Project>{54ab8185-d4c5-4ce4-9602-811b82a77fa6}</Project>
-      <Name>MongoQueue.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MongoQueueTests.Common\MongoQueueTests.Common.csproj">
       <Project>{1d27a7e0-5acf-42e4-9df4-c52ece605b03}</Project>
       <Name>MongoQueueTests.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />

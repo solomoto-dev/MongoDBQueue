@@ -3,7 +3,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoQueue.Core.AgentAbstractions;
 using MongoQueue.Core.Entities;
-using MongoQueue.Core.LogicAbstractions;
 
 namespace MongoQueue
 {

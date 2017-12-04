@@ -153,12 +153,12 @@
       <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MongoQueueCore.Core\MongoQueue.Core.csproj">
-      <Project>{54ab8185-d4c5-4ce4-9602-811b82a77fa6}</Project>
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
+      <Project>{6d9352e3-6f3b-4fc2-978b-f4957a16e062}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MongoQueueCore\MongoQueue.csproj">
-      <Project>{ccd4b1b7-4dc6-4990-a8fe-a291e1a5fc10}</Project>
+    <ProjectReference Include="..\..\MongoQueue\MongoQueue.csproj">
+      <Project>{ff8a4e63-7c0a-451b-b772-1f329cdc18e1}</Project>
       <Name>MongoQueue</Name>
     </ProjectReference>
   </ItemGroup>

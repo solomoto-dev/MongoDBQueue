@@ -144,13 +144,13 @@
       <Project>{3b76649e-7ee0-4e14-b982-d3de96bca833}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
+      <Project>{6d9352e3-6f3b-4fc2-978b-f4957a16e062}</Project>
+      <Name>MongoQueue.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Legacy\MongoQueue.Legacy.csproj">
       <Project>{0f118dcf-48e5-42b5-ac8c-15160ad70611}</Project>
       <Name>MongoQueue.Legacy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MongoQueueCore.Core\MongoQueue.Core.csproj">
-      <Project>{54ab8185-d4c5-4ce4-9602-811b82a77fa6}</Project>
-      <Name>MongoQueue.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

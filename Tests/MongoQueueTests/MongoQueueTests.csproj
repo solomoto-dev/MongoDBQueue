@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj" />
-    <ProjectReference Include="..\..\MongoQueueCore.Core\MongoQueue.Core.csproj" />
-    <ProjectReference Include="..\..\MongoQueueCore\MongoQueue.csproj" />
+    <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj" />
+    <ProjectReference Include="..\..\MongoQueue\MongoQueue.csproj" />
     <ProjectReference Include="..\MongoQueueTests.Common\MongoQueueTests.Common.csproj" />
   </ItemGroup>
 

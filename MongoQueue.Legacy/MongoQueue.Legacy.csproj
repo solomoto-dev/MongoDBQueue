@@ -60,8 +60,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MongoQueueCore.Core\MongoQueue.Core.csproj">
-      <Project>{54ab8185-d4c5-4ce4-9602-811b82a77fa6}</Project>
+    <ProjectReference Include="..\MongoQueue.Core\MongoQueue.Core.csproj">
+      <Project>{6d9352e3-6f3b-4fc2-978b-f4957a16e062}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
   </ItemGroup>
