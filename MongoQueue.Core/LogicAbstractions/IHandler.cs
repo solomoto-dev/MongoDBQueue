@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MongoQueue.Core.LogicAbstractions
 {
-    public interface IHandler<TMessage>
+    public interface IHandler<in TMessage> : IHandler
     {
         Task Handle(TMessage message, bool resend, CancellationToken cancellationToken);
     }

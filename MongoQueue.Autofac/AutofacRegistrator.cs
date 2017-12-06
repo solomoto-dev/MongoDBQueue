@@ -35,7 +35,7 @@ namespace MongoQueue.Autofac
 
         public IInstanceResolver CreateResolver()
         {
-            _builder.RegisterType<QueueResolver>()
+            _builder.RegisterType<ServiceProviderResolver>()
                 .As<IInstanceResolver>();
             Container = _builder.Build();
             return Container.Resolve<IInstanceResolver>();

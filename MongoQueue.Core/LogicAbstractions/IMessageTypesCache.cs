@@ -7,5 +7,6 @@ namespace MongoQueue.Core.LogicAbstractions
         void Register<TMessage>();
         Type Get(string topic);
         string[] GetAllTopics();
+        void Register(Type message);
     }
 }

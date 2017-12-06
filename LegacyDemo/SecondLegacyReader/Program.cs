@@ -5,7 +5,6 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MongoQueue.Autofac;
-using MongoQueue.Core;
 using MongoQueue.Legacy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -21,27 +20,27 @@ namespace SecondLegacyReader
                 route = args[0];
             }
             var containerBuilder = new ContainerBuilder();
-            var autofacRegistrator = new AutofacRegistrator(containerBuilder);
+            IContainer container = null;
 
             var serviceProvider = new ServiceCollection
             {
                 new ServiceDescriptor(
                     typeof(IContainer),
-                    provider => autofacRegistrator.Container,
+                    provider => container,
                     ServiceLifetime.Singleton)
             };
 
             containerBuilder.Populate(serviceProvider);
-            var configurator = new QueueConfigurator(autofacRegistrator, new LegacyMessagingDependencyRegistrator())
-                .RegisterHandler<DefaultHandler>()
-                .RegisterHandler<AnotherDefaultHandler>();
-            var builder = configurator.Build(autofacRegistrator.CreateResolver());
-            var subscriber = builder.GetSubscriber();
-            subscriber.Subscribe<DefaultHandler, DomainMessage>();
-            subscriber.Subscribe<AnotherDefaultHandler, AnotherDomainMessage>();
+            
+            new QueueBuilder()
+                .AddAutofac<LegacyMessagingDependencyRegistrator>(containerBuilder)
+                .AddHandler<DefaultHandler, DomainMessage>()
+                .AddHandler<AnotherDefaultHandler, AnotherDomainMessage>()
+                .Build<ServiceProviderResolver>();
 
-            var mongoMessageListener = builder.GetListener();
-            mongoMessageListener.Start(route, CancellationToken.None).Wait();
+            container = containerBuilder.Build();
+            container.Resolve<QueueProvider>().Listen(route, CancellationToken.None).Wait();
+
             Console.WriteLine($"started listener {route}");
             Console.ReadLine();
         }

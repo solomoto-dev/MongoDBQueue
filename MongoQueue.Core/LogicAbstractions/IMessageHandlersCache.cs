@@ -7,5 +7,6 @@ namespace MongoQueue.Core.LogicAbstractions
     {
         MessageHandlersCache Register<THandler, TMessage>() where THandler : IHandler<TMessage>;
         Type Get(string topic);
+        MessageHandlersCache Register(Type handler, Type message);
     }
 }

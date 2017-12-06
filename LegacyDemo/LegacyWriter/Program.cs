@@ -4,7 +4,6 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MongoQueue.Autofac;
-using MongoQueue.Core;
 using MongoQueue.Legacy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -20,20 +19,22 @@ namespace LegacyWriter
         static async Task DoStuff()
         {
             var containerBuilder = new ContainerBuilder();
-            var autofacRegistrator = new AutofacRegistrator(containerBuilder);
+            IContainer container = null;
 
             var serviceProvider = new ServiceCollection
             {
                 new ServiceDescriptor(
                     typeof(IContainer),
-                    provider => autofacRegistrator.Container,
+                    provider => container,
                     ServiceLifetime.Singleton)
             };
 
             containerBuilder.Populate(serviceProvider);
-            var configurator = new QueueConfigurator(autofacRegistrator, new LegacyMessagingDependencyRegistrator());
-            var builder = configurator.Build(autofacRegistrator.CreateResolver());
-            var publisher = builder.GetPublisher();
+            new QueueBuilder()
+                .AddAutofac<LegacyMessagingDependencyRegistrator>(containerBuilder)
+                .Build<ServiceProviderResolver>();
+            container = containerBuilder.Build();
+            var publisher = container.Resolve<QueueProvider>().GetPublisher();
             while (true)
             {
                 try

@@ -22,26 +22,23 @@ namespace MongoQueueReader
             }
 
             var containerBuilder = new ContainerBuilder();
-            var autofacRegistrator = new AutofacRegistrator(containerBuilder);
-
+            IContainer container = null;
             var serviceProvider = new ServiceCollection
             {
                 new ServiceDescriptor(
                     typeof(IContainer),
-                    provider => autofacRegistrator.Container,
+                    provider => container,
                     ServiceLifetime.Singleton)
             };
-
             containerBuilder.Populate(serviceProvider);
-            var configurator = new QueueConfigurator(autofacRegistrator, new MessagingDependencyRegistrator())
-                .RegisterHandler<DefaultHandler>();
-            var builder = configurator.Build(autofacRegistrator.CreateResolver());
 
-            var subscriber = builder.GetSubscriber();
-            subscriber.Subscribe<DefaultHandler, DomainMessage>();
-
-            var mongoMessageListener = builder.GetListener();
-            mongoMessageListener.Start(route, CancellationToken.None).Wait();
+            new QueueBuilder()
+                .AddAutofac<MessagingDependencyRegistrator>(containerBuilder)
+                .AddHandler<DefaultHandler, DomainMessage>()
+                .Build<ServiceProviderResolver>();
+            container = containerBuilder.Build();
+            var queue = container.Resolve<QueueProvider>();
+            queue.Listen(route, CancellationToken.None).Wait();            
             Console.WriteLine($"started listener {route}");
             Console.ReadLine();
         }

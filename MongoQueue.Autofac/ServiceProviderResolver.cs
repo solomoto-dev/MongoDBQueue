@@ -4,11 +4,11 @@ using MongoQueue.Core;
 
 namespace MongoQueue.Autofac
 {
-    public class QueueResolver : IInstanceResolver
+    public class ServiceProviderResolver : IInstanceResolver
     {
         private readonly IServiceProvider _provider;
 
-        public QueueResolver(IServiceProvider provider)
+        public ServiceProviderResolver(IServiceProvider provider)
         {
             _provider = provider;
         }

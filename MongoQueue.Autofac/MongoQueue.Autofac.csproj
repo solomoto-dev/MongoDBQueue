@@ -48,7 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacRegistrator.cs" />
-    <Compile Include="QueueResolver.cs" />
+    <Compile Include="QueueBuilder.cs" />
+    <Compile Include="QueueProvider.cs" />
+    <Compile Include="ServiceProviderResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
