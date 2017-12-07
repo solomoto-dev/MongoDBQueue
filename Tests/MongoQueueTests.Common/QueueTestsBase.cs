@@ -2,8 +2,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using MongoQueue.Autofac;
 using MongoQueue.Core;
 using NUnit.Framework;
 
@@ -18,18 +16,8 @@ namespace MongoQueueTests.Common
         public void Setup()
         {
             var containerBuilder = new ContainerBuilder();
-            var autofacRegistrator = new AutofacRegistrator(containerBuilder);
-
-            var serviceProvider = new ServiceCollection
-            {
-                new ServiceDescriptor(
-                    typeof(IContainer),
-                    provider => autofacRegistrator.Container,
-                    ServiceLifetime.Singleton)
-            };
-
-            containerBuilder.Populate(serviceProvider);
-            var configurator = new QueueConfigurator(autofacRegistrator, GetRegistrator());
+            var serviceProvider = new ServiceCollection();
+            var configurator = new QueueConfigurator(serviceProvider, GetRegistrator());
             configurator
                 .SetConfigurationProvider(TestMessagingConfiguration.Create())
                 .SetTopicProvider<TestTopicNameProvider>()
@@ -39,10 +27,14 @@ namespace MongoQueueTests.Common
                 .RegisterHandler<ResendHandler>()
                 .RegisterHandler<TransactionResendHandler>()
                 .RegisterHandler<TimeConsumingHandler>();
-            Resolver = autofacRegistrator.CreateResolver();
+            serviceProvider.AddSingleton(configurator);
+            serviceProvider.AddSingleton<IInstanceResolver, ServiceProviderResolver>();
+            containerBuilder.Populate(serviceProvider);
+            var container = containerBuilder.Build();
+            Resolver = container.Resolve<IInstanceResolver>();
             Builder = configurator.Build(Resolver);
             ClearDb();
-        }
+        }        
 
         [TearDown]
         public void TearDown()

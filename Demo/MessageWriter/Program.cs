@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using MongoQueue;
 using MongoQueue.Autofac;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoQueue.Core;
 
 namespace MessageWriter
 {
@@ -19,23 +17,18 @@ namespace MessageWriter
         static async Task DoStuff()
         {           
             var containerBuilder = new ContainerBuilder();
-            IContainer container = null;
-            var serviceProvider = new ServiceCollection
-            {
-                new ServiceDescriptor(
-                    typeof(IContainer),
-                    provider => container,
-                    ServiceLifetime.Singleton)
-            };
-
-            containerBuilder.Populate(serviceProvider);
             var builder = new QueueBuilder();
             builder
-                .AddAutofac<MessagingDependencyRegistrator>(containerBuilder)
-                .Build<ServiceProviderResolver>();
-            container = containerBuilder.Build();
+                .AddRegistrator<MessagingDependencyRegistrator>()
+                .AddResolver()
+                .AddAutofac(containerBuilder)
+                .Build();
+
+            var container = containerBuilder.Build();
+
             var queue = container.Resolve<QueueProvider>();
             var publisher = queue.GetPublisher();
+
             while (true)
             {
                 try

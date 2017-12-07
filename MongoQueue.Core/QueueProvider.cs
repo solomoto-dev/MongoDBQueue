@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoQueue.Core;
 using MongoQueue.Core.LogicAbstractions;
 
-namespace MongoQueue.Autofac
+namespace MongoQueue.Core
 {
     public class QueueProvider
     {
@@ -26,7 +25,7 @@ namespace MongoQueue.Autofac
             var queueBuilder = _builder ?? (_builder = _configurator.Build(_resolver));
             var subscriber = queueBuilder.GetSubscriber();
             foreach (var pair in _handlersRegistry)
-            {                
+            {
                 subscriber.Subscribe(pair.Key, pair.Value);
             }
             var listener = queueBuilder.GetListener();

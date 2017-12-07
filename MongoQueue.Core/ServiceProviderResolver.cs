@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using MongoQueue.Core;
 
-namespace MongoQueue.Autofac
+namespace MongoQueue.Core
 {
     public class ServiceProviderResolver : IInstanceResolver
     {

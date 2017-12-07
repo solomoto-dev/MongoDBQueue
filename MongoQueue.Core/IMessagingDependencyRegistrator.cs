@@ -1,7 +1,9 @@
-﻿namespace MongoQueue.Core
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace MongoQueue.Core
 {
     public interface IMessagingDependencyRegistrator
     {
-        void RegisterDefault(IRegistrator registrator);
+        void RegisterDefault(IServiceCollection registrator);
     }
 }

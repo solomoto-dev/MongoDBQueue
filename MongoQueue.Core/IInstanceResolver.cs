@@ -1,5 +1,4 @@
 using System;
-using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MongoQueue.Core

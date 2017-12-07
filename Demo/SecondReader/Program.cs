@@ -2,12 +2,9 @@
 using System.Linq;
 using System.Threading;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using MongoQueue;
 using MongoQueue.Autofac;
 using MongoQueue.Core;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SecondReader
 {
@@ -22,23 +19,15 @@ namespace SecondReader
             }
 
             var containerBuilder = new ContainerBuilder();
-            IContainer container = null;
 
-            var serviceProvider = new ServiceCollection
-            {
-                new ServiceDescriptor(
-                    typeof(IContainer),
-                    provider => container,
-                    ServiceLifetime.Singleton)
-            };
-
-            containerBuilder.Populate(serviceProvider);
             new QueueBuilder()
-                .AddAutofac<MessagingDependencyRegistrator>(containerBuilder)
+                .AddRegistrator<MessagingDependencyRegistrator>()
                 .AddHandler<DefaultHandler, DomainMessage>()
                 .AddHandler<AnotherDefaultHandler, AnotherDomainMessage>()
-                .Build<ServiceProviderResolver>();
-            container = containerBuilder.Build();
+                .AddResolver()
+                .AddAutofac(containerBuilder)
+                .Build();
+            var container = containerBuilder.Build();
             var queue = container.Resolve<QueueProvider>();
             queue.Listen(route, CancellationToken.None).Wait();
             

@@ -1,12 +1,13 @@
-﻿using MongoQueue.Core.IntegrationAbstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MongoQueue.Core.IntegrationAbstractions;
 using MongoQueue.Core.LogicAbstractions;
 
 namespace MongoQueue.Core
 {
     public class QueueConfigurator
     {
-        private readonly IRegistrator _registrator;
-        public QueueConfigurator(IRegistrator registrator, IMessagingDependencyRegistrator messagingDependencyRegistrator)
+        private readonly IServiceCollection _registrator;
+        public QueueConfigurator(IServiceCollection registrator, IMessagingDependencyRegistrator messagingDependencyRegistrator)
         {
             _registrator = registrator;
             messagingDependencyRegistrator.RegisterDefault(_registrator);
@@ -17,11 +18,11 @@ namespace MongoQueue.Core
         {
             if (configuration == null)
             {
-                _registrator.Register<IMessagingConfiguration, TConfiguration>();
+                _registrator.AddScoped<IMessagingConfiguration, TConfiguration>();
             }
             else
             {
-                _registrator.RegisterInstance<IMessagingConfiguration>(configuration);
+                _registrator.AddScoped<IMessagingConfiguration>(_ => configuration);
             }
             return this;
         }
@@ -30,11 +31,11 @@ namespace MongoQueue.Core
         {
             if (instance == null)
             {
-                _registrator.Register<IMessageHandlerFactory, TFactory>();
+                _registrator.AddScoped<IMessageHandlerFactory, TFactory>();
             }
             else
             {
-                _registrator.RegisterInstance<IMessageHandlerFactory>(instance);
+                _registrator.AddScoped<IMessageHandlerFactory>(_ => instance);
             }
 
             return this;
@@ -45,11 +46,11 @@ namespace MongoQueue.Core
         {
             if (instance == null)
             {
-                _registrator.Register<ITopicNameProvider, TTopicProvider>();
+                _registrator.AddScoped<ITopicNameProvider, TTopicProvider>();
             }
             else
             {
-                _registrator.RegisterInstance<ITopicNameProvider>(instance);
+                _registrator.AddScoped<ITopicNameProvider>(_ => instance);
             }
             return this;
         }
@@ -59,24 +60,24 @@ namespace MongoQueue.Core
         {
             if (instance == null)
             {
-                _registrator.Register<IMessagingLogger, TLogger>();
+                _registrator.AddScoped<IMessagingLogger, TLogger>();
             }
             else
             {
-                _registrator.RegisterInstance<IMessagingLogger>(instance);
+                _registrator.AddScoped<IMessagingLogger>(_ => instance);
             }
             return this;
         }
 
         public QueueConfigurator RegisterHandler<THandler>() where THandler : class, IHandler
         {
-            _registrator.Register<THandler>();
+            _registrator.AddScoped<THandler>();
             return this;
         }
 
         public ConfiguredQueueBuilder Build(IInstanceResolver instanceResolver)
         {
-            _registrator.RegisterInstance<IInstanceResolver>(instanceResolver);
+            _registrator.AddScoped(_ => instanceResolver);
             return new ConfiguredQueueBuilder(instanceResolver);
         }
     }
