@@ -52,6 +52,12 @@
       <HintPath>..\..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.11.0.92, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\mongocsharpdriver.1.11.0\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=1.11.0.92, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\mongocsharpdriver.1.11.0\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -143,7 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
-      <Project>{3b76649e-7ee0-4e14-b982-d3de96bca833}</Project>
+      <Project>{f1550a7d-379f-46a6-b6c0-8f6a75bbc300}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
@@ -151,7 +157,7 @@
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Legacy\MongoQueue.Legacy.csproj">
-      <Project>{0f118dcf-48e5-42b5-ac8c-15160ad70611}</Project>
+      <Project>{e8ad9734-b5f7-45f4-8c93-bee070a14a1e}</Project>
       <Name>MongoQueue.Legacy</Name>
     </ProjectReference>
   </ItemGroup>

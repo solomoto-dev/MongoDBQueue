@@ -156,10 +156,6 @@
     <Compile Include="TransactionResendHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
-      <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
-      <Name>MongoQueue.Autofac</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6d9352e3-6f3b-4fc2-978b-f4957a16e062}</Project>
       <Name>MongoQueue.Core</Name>

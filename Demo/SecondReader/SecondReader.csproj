@@ -154,7 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
-      <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
+      <Project>{f1550a7d-379f-46a6-b6c0-8f6a75bbc300}</Project>
       <Name>MongoQueue.Autofac</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">

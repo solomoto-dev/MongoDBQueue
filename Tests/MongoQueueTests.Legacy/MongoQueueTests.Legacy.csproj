@@ -151,16 +151,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MongoQueue.Autofac\MongoQueue.Autofac.csproj">
-      <Project>{3B76649E-7EE0-4E14-B982-D3DE96BCA833}</Project>
-      <Name>MongoQueue.Autofac</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Core\MongoQueue.Core.csproj">
       <Project>{6d9352e3-6f3b-4fc2-978b-f4957a16e062}</Project>
       <Name>MongoQueue.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MongoQueue.Legacy\MongoQueue.Legacy.csproj">
-      <Project>{0F118DCF-48E5-42B5-AC8C-15160AD70611}</Project>
+      <Project>{e8ad9734-b5f7-45f4-8c93-bee070a14a1e}</Project>
       <Name>MongoQueue.Legacy</Name>
     </ProjectReference>
     <ProjectReference Include="..\MongoQueueTests.Common\MongoQueueTests.Common.csproj">
