@@ -4,6 +4,17 @@
     <TargetFrameworks>netcoreapp2.0;netstandard2.0</TargetFrameworks>
     <AssemblyName>MongoQueue.Core</AssemblyName>
     <RootNamespace>MongoQueue.Core</RootNamespace>
+    <Version>1.2.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>solomoto team</Authors>
+    <PackageId>MongoDBQueue.Core</PackageId>
+    <Company>SOLOMOTO</Company>
+    <Product>MongoDBQueue</Product>
+    <Copyright>Copyright © solomoto</Copyright>
+    <Description>MongoDBQueue Core</Description>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/solomoto-dev/MongoDBQueue</PackageProjectUrl>
+    <PackageTags>MongoDB message queue</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
