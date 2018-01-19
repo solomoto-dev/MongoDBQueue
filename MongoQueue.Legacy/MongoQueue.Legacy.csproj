@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;netstandard2.0</TargetFrameworks>
     <PackageId>MongoDBQueue.Legacy</PackageId>
-    <Version>1.2.2</Version>
+    <Version>1.2.3</Version>
     <Authors>Vadim Zhogalskiy</Authors>
     <Company>SOLOMOTO</Company>
     <Product>MongoDBQueue</Product>
