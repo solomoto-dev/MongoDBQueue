@@ -1,5 +1,5 @@
-﻿using System;
-using MongoQueue.Core.IntegrationAbstractions;
+﻿using MongoQueue.Core.IntegrationAbstractions;
+using System;
 
 namespace MongoQueue.Core.IntegrationDefaults
 {
@@ -23,9 +23,12 @@ namespace MongoQueue.Core.IntegrationDefaults
 
         public static DefaultMessagingConfiguration Create()
         {
-            return new DefaultMessagingConfiguration("mongodb://localhost:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10);
+            return Create("mongodb://localhost:27017", "dev-queue");
         }
 
-        
+        public static DefaultMessagingConfiguration Create(string connectionString, string database)
+        {
+            return new DefaultMessagingConfiguration(connectionString, database, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10);
+        }
     }
 }
