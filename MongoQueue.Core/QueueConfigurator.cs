@@ -46,11 +46,11 @@ namespace MongoQueue.Core
         {
             if (instance == null)
             {
-                _registrator.AddScoped<ITopicNameProvider, TTopicProvider>();
+                _registrator.AddTransient<ITopicNameProvider, TTopicProvider>();
             }
             else
             {
-                _registrator.AddScoped<ITopicNameProvider>(_ => instance);
+                _registrator.AddTransient<ITopicNameProvider>(_ => instance);
             }
             return this;
         }

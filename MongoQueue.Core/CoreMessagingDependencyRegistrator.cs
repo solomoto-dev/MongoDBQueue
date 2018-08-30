@@ -10,7 +10,7 @@ namespace MongoQueue.Core
     {
         public void RegisterDefault(IServiceCollection registrator)
         {
-            registrator.AddScoped<ITopicNameProvider, DefaultTopicNameProvider>();
+            registrator.AddTransient<ITopicNameProvider, DefaultTopicNameProvider>();
             registrator.AddScoped<IQueueSubscriber, DefaultQueueSubscriber>();
             registrator.AddScoped<IQueuePublisher, QueuePublisher>();
             registrator.AddScoped<IMessageHandlerFactory, MessageHandlerFactory>();

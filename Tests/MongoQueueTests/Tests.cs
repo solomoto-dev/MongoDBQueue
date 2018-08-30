@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace MongoQueueTests
 {
     [TestFixture]
-    public class Test : QueueTestsBase
+    public class Tests : QueueTestsBase
     {
         protected override IMessagingDependencyRegistrator GetRegistrator()
         {

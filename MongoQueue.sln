@@ -31,9 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoQueue.Core", "MongoQue
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoQueue", "MongoQueue\MongoQueue.csproj", "{FF8A4E63-7C0A-451B-B772-1F329CDC18E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueue.Autofac", "MongoQueue.Autofac\MongoQueue.Autofac.csproj", "{F1550A7D-379F-46A6-B6C0-8F6A75BBC300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoQueue.Autofac", "MongoQueue.Autofac\MongoQueue.Autofac.csproj", "{F1550A7D-379F-46A6-B6C0-8F6A75BBC300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueue.Legacy", "MongoQueue.Legacy\MongoQueue.Legacy.csproj", "{E8AD9734-B5F7-45F4-8C93-BEE070A14A1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoQueue.Legacy", "MongoQueue.Legacy\MongoQueue.Legacy.csproj", "{E8AD9734-B5F7-45F4-8C93-BEE070A14A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoQueueReaderNoAutofac", "MongoQueueReaderNoAutofac\MongoQueueReaderNoAutofac.csproj", "{26626908-5917-4476-A87D-34EAEF7D494D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{E8AD9734-B5F7-45F4-8C93-BEE070A14A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8AD9734-B5F7-45F4-8C93-BEE070A14A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8AD9734-B5F7-45F4-8C93-BEE070A14A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26626908-5917-4476-A87D-34EAEF7D494D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26626908-5917-4476-A87D-34EAEF7D494D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26626908-5917-4476-A87D-34EAEF7D494D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26626908-5917-4476-A87D-34EAEF7D494D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +113,7 @@ Global
 		{1D27A7E0-5ACF-42E4-9DF4-C52ECE605B03} = {48904519-E50B-4ABB-B786-57D78AF4A8A0}
 		{6176FA62-A8C5-4183-9EAA-A6CD11A139B0} = {48904519-E50B-4ABB-B786-57D78AF4A8A0}
 		{871E73E6-5763-452E-8748-94BCCF7A5869} = {48904519-E50B-4ABB-B786-57D78AF4A8A0}
+		{26626908-5917-4476-A87D-34EAEF7D494D} = {BD669A13-EACB-4D36-95F2-1227779F55CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {450C5F9A-3111-4274-A65B-4B8EF0DDE57B}
