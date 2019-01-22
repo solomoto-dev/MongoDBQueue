@@ -48,7 +48,7 @@ namespace MongoQueue.Core.Logic
             var subscribers = await _subscriptionAgent.GetSubscribersAsync(topic);
 
             var payload = JsonConvert.SerializeObject(message);
-            if (subscribers != null)
+            if (subscribers != null && subscribers.Any())
             {
                 foreach (var subscriber in subscribers)
                 {
