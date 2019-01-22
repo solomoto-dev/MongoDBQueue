@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MongoQueue.Core;
+using MongoQueue.Core.Exceptions;
 using MongoQueue.Core.IntegrationAbstractions;
+using MongoQueue.Core.IntegrationDefaults;
 using MongoQueue.Core.Logic;
 using MongoQueue.Core.LogicAbstractions;
 using MongoQueue.Legacy;
@@ -23,9 +25,11 @@ namespace MongoQueueTests.Legacy
         protected override void DropCollection(string collectionName)
         {
             var mongoAgent = Resolver.Get<LegacyMongoAgent>();
-            var db = mongoAgent.GetDb();
+            var db = mongoAgent.Db;
             db.DropCollection(collectionName);
         }
+
+        #region sync
 
         [Test, RunInApplicationDomain]
         public async Task WhenMessageIsResent_SystemProcessesItOnce()
@@ -43,7 +47,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id + "resend") && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -62,7 +66,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id + "resend") && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -80,7 +84,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Count == 0,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -97,7 +101,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -114,7 +118,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
 
@@ -134,7 +138,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Count == 11,
                 TimeSpan.FromSeconds(15),
                 TimeSpan.FromSeconds(20)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -155,7 +159,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessages.Select(x => x.Id).ToArray()) && ResultHolder.Count == testMessages.Length,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -176,7 +180,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessages.Select(x => x.Id).ToArray()) && ResultHolder.Count == testMessages.Length,
                 TimeSpan.FromSeconds(4),
                 TimeSpan.FromSeconds(5)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -193,8 +197,21 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(4),
                 TimeSpan.FromSeconds(5)
-                );
+            );
         }
+
+        [Test, RunInApplicationDomain]
+        public void WhenPublishToNoMongoEndpoint_ThenShouldExplode()
+        {
+            Setup(new DefaultMessagingConfiguration("mongodb://holocaust:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10), false);
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var testMessage = CreateMessage();
+            Assert.Throws<QueueConfigurationException>(() => publisher.Publish(testMessage));
+        }
+
+        #endregion
+
+        #region async
 
         [Test, RunInApplicationDomain]
         public async Task WhenMessageIsResentAsync_SystemProcessesItOnce()
@@ -212,7 +229,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id + "resend") && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -231,7 +248,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id + "resend") && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -249,7 +266,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Count == 0,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -266,7 +283,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -283,7 +300,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessage.Id) && ResultHolder.Count == 1,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
 
@@ -303,7 +320,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Count == 11,
                 TimeSpan.FromSeconds(15),
                 TimeSpan.FromSeconds(20)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -321,7 +338,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessages.Select(x => x.Id).ToArray()) && ResultHolder.Count == testMessages.Length,
                 TimeSpan.FromSeconds(5),
                 TimeSpan.FromSeconds(6)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -339,7 +356,7 @@ namespace MongoQueueTests.Legacy
                 () => ResultHolder.Contains(testMessages.Select(x => x.Id).ToArray()) && ResultHolder.Count == testMessages.Length,
                 TimeSpan.FromSeconds(4),
                 TimeSpan.FromSeconds(5)
-                );
+            );
         }
 
         [Test, RunInApplicationDomain]
@@ -357,6 +374,27 @@ namespace MongoQueueTests.Legacy
                 TimeSpan.FromSeconds(4),
                 TimeSpan.FromSeconds(5)
             );
+        }
+
+        [Test, RunInApplicationDomain]
+        public void WhenPublishAsyncToNoMongoEndpoint_ThenShouldExplode()
+        {
+            Setup(new DefaultMessagingConfiguration("mongodb://holocaust:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10), false);
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var testMessage = CreateMessage();
+            Assert.ThrowsAsync<QueueConfigurationException>(() => publisher.PublishAsync(testMessage));
+        }
+
+        #endregion
+
+        [Test, RunInApplicationDomain]
+        public void WhenSubscribeToNoMongoEndpoint_ThenShouldExplode()
+        {
+            Setup(new DefaultMessagingConfiguration("mongodb://holocaust:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10), false);
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            subscriber.Subscribe<TimeConsumingHandler, TestMessage>();
+            var listener = Resolver.Get<QueueListener>();
+            Assert.ThrowsAsync<QueueConfigurationException>(() => listener.Start("test", CancellationToken.None));
         }
     }
 }

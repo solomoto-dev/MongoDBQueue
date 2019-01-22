@@ -17,7 +17,7 @@ namespace MongoQueue
         public async Task CreateCollectionIfNotExist(string route)
         {
             var collectionName = _mongoAgent.GetEnvelopsCollectionName(route);
-            var db = _mongoAgent.GetDb();
+            var db = _mongoAgent.Db;
             var colfilter = new BsonDocument("name", collectionName);
             var collections = await db.ListCollectionsAsync(new ListCollectionsOptions { Filter = colfilter });
             if (!collections.Any())

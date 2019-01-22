@@ -3,6 +3,8 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MongoQueue.Core;
+using MongoQueue.Core.Exceptions;
+using MongoQueue.Core.IntegrationAbstractions;
 using NUnit.Framework;
 
 namespace MongoQueueTests.Common
@@ -12,14 +14,21 @@ namespace MongoQueueTests.Common
     {
         protected IInstanceResolver Resolver { get; private set; }
         protected ConfiguredQueueBuilder Builder { get; private set; }
+
         [SetUp]
         public void Setup()
         {
+            Setup(null);
+        }
+
+        public void Setup(IMessagingConfiguration config, bool deleteDb = true)
+        {
+            if (config == null) config = TestMessagingConfiguration.Create();
             var containerBuilder = new ContainerBuilder();
             var serviceProvider = new ServiceCollection();
             var configurator = new QueueConfigurator(serviceProvider, GetRegistrator());
             configurator
-                .SetConfigurationProvider(TestMessagingConfiguration.Create())
+                .SetConfigurationProvider(config)
                 .SetTopicProvider<TestTopicNameProvider>()
                 .RegisterHandler<TestHandler>()
                 .RegisterHandler<SlightlyDifferentTestHandler>()
@@ -33,13 +42,20 @@ namespace MongoQueueTests.Common
             var container = containerBuilder.Build();
             Resolver = container.Resolve<IInstanceResolver>();
             Builder = configurator.Build(Resolver);
-            ClearDb();
+            if(deleteDb) ClearDb();            
         }        
 
         [TearDown]
         public void TearDown()
         {
-            ClearDb();
+            try
+            {
+                ClearDb();
+            }
+            catch (QueueConfigurationException )
+            {
+                //ignore
+            }
         }
 
         protected virtual void ClearDb()

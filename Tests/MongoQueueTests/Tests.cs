@@ -4,7 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using MongoQueue;
 using MongoQueue.Core;
+using MongoQueue.Core.Exceptions;
 using MongoQueue.Core.IntegrationAbstractions;
+using MongoQueue.Core.IntegrationDefaults;
 using MongoQueue.Core.Logic;
 using MongoQueue.Core.LogicAbstractions;
 using MongoQueueTests.Common;
@@ -23,7 +25,7 @@ namespace MongoQueueTests
         protected override void DropCollection(string collectionName)
         {
             var mongoAgent = Resolver.Get<MongoAgent>();
-            var db = mongoAgent.GetDb();
+            var db = mongoAgent.Db;
             db.DropCollection(collectionName);
         }
 
@@ -159,6 +161,15 @@ namespace MongoQueueTests
                 );
         }
 
+        [Test]
+        public void WhenPublishToNoMongoEndpoint_ThenShouldExplode()
+        {
+            Setup(new DefaultMessagingConfiguration("mongodb://holocaust:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10), false);
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var testMessage = CreateMessage();            
+            Assert.Throws<QueueConfigurationException>(() => publisher.Publish(testMessage));
+        }        
+
         #endregion
 
         #region async
@@ -287,6 +298,25 @@ namespace MongoQueueTests
             );
         }
 
+        [Test]
+        public void WhenPublishAsyncToNoMongoEndpoint_ThenShouldExplode()
+        {
+            Setup(new DefaultMessagingConfiguration("mongodb://holocaust:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10), false);
+            var publisher = Resolver.Get<IQueuePublisher>();
+            var testMessage = CreateMessage();
+            Assert.ThrowsAsync<QueueConfigurationException>(() => publisher.PublishAsync(testMessage));
+        }
+
         #endregion        
+
+        [Test]
+        public void WhenSubscribeToNoMongoEndpoint_ThenShouldExplode()
+        {
+            Setup(new DefaultMessagingConfiguration("mongodb://holocaust:27017", "dev-queue", TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), CursorType.Polling, 10), false);
+            var subscriber = Resolver.Get<IQueueSubscriber>();
+            subscriber.Subscribe<TimeConsumingHandler, TestMessage>();
+            var listener = Resolver.Get<QueueListener>();
+            Assert.ThrowsAsync<QueueConfigurationException>(() => listener.Start("test", CancellationToken.None));
+        }
     }
 }

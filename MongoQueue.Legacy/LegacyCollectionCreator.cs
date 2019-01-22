@@ -17,7 +17,7 @@ namespace MongoQueue.Legacy
         public Task CreateCollectionIfNotExist(string route)
         {
             var collectionName = _mongoAgent.GetEnvelopsCollectionName(route);
-            var db = _mongoAgent.GetDb();
+            var db = _mongoAgent.Db;
             if (!db.CollectionExists(collectionName))
             {
                 var collectionOptionsBuilder = new CollectionOptionsBuilder()
