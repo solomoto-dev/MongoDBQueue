@@ -20,6 +20,12 @@ namespace MongoQueue.Core
             return this;
         }
 
+        public QueueBuilder AddLogger<TLogger>(TLogger logger=null) where TLogger : class, IMessagingLogger
+        {
+            _configurator.SetLogger(logger);
+            return this;
+        }
+
         public QueueBuilder AddConfiguration<TConfiguration>(TConfiguration configuration = null)
             where TConfiguration : class, IMessagingConfiguration
         {
