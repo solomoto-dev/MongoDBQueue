@@ -15,12 +15,20 @@ namespace MessageWriter
         }
 
         static async Task DoStuff()
-        {
-            var autofacRegistrator = new AutofacRegistrator();
-            var configurator = new QueueConfigurator(autofacRegistrator, new MessagingDependencyRegistrator());
+        {           
+            var containerBuilder = new ContainerBuilder();
+            var builder = new QueueBuilder();
+            builder
+                .AddRegistrator<MessagingDependencyRegistrator>()
+                .AddResolver()
+                .AddAutofac(containerBuilder)
+                .Build();
 
-            var builder = configurator.Build(autofacRegistrator.CreateResolver());
-            var publisher = builder.GetPublisher();
+            var container = containerBuilder.Build();
+
+            var queue = container.Resolve<QueueProvider>();
+            var publisher = queue.GetPublisher();
+
             while (true)
             {
                 try

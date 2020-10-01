@@ -16,14 +16,19 @@ namespace MongoQueue.Core.Logic
 
         public MessageHandlersCache Register<THandler, TMessage>() where THandler : IHandler<TMessage>
         {
-            var topic = _topicNameProvider.Get<TMessage>();
-            Cache[topic] = typeof(THandler);
+            return Register(typeof(THandler), typeof(TMessage));
+        }
+
+        public MessageHandlersCache Register(Type handler, Type message)
+        {
+            var topic = _topicNameProvider.Get(message);
+            Cache[topic] = handler;
             return this;
         }
 
         public Type Get(string topic)
         {
             return Cache[topic];
-        }
+        }        
     }
 }

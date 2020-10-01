@@ -1,5 +1,5 @@
 using System;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MongoQueue.Core
 {
@@ -7,6 +7,6 @@ namespace MongoQueue.Core
     {
         T Get<T>();
         object Get(Type t);
-        ILifetimeScope CreateLifeTimeScope();
+        IServiceScope CreateLifeTimeScope();
     }
 }

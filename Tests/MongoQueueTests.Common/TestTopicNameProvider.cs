@@ -1,16 +1,17 @@
-﻿using MongoQueue.Core.Logic;
+﻿using System;
+using MongoQueue.Core.Logic;
 
 namespace MongoQueueTests.Common
 {
     public class TestTopicNameProvider : DefaultTopicNameProvider
     {
-        public override string Get<TMessage>()
+        public override string Get(Type message)
         {
-            if (typeof(TMessage) == typeof(TestMessage) || typeof(TMessage) == typeof(SlightlyDifferentTestMessage))
+            if (message == typeof(TestMessage) || message == typeof(SlightlyDifferentTestMessage))
             {
                 return nameof(TestMessage);
             }
-            return base.Get<TMessage>();
+            return base.Get(message);
         }
     }
 }

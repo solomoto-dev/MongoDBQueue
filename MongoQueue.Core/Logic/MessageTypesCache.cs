@@ -17,8 +17,13 @@ namespace MongoQueue.Core.Logic
 
         public void Register<TMessage>()
         {
-            var topic = _topicNameProvider.Get<TMessage>();
-            Cache[topic] = typeof(TMessage);
+            Register(typeof(TMessage));
+        }
+
+        public void Register(Type message)
+        {
+            var topic = _topicNameProvider.Get(message);
+            Cache[topic] = message;
         }
 
         public Type Get(string topic)
@@ -29,6 +34,6 @@ namespace MongoQueue.Core.Logic
         public string[] GetAllTopics()
         {
             return Cache.Keys.ToArray();
-        }
+        }        
     }
 }

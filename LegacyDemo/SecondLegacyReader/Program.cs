@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using Autofac;
 using MongoQueue.Autofac;
-using MongoQueue.Core;
 using MongoQueue.Legacy;
+using MongoQueue.Core;
 
 namespace SecondLegacyReader
 {
@@ -16,17 +17,19 @@ namespace SecondLegacyReader
             {
                 route = args[0];
             }
-            var autofacRegistrator = new AutofacRegistrator();
-            var configurator = new QueueConfigurator(autofacRegistrator, new LegacyMessagingDependencyRegistrator())
-                .RegisterHandler<DefaultHandler>()
-                .RegisterHandler<AnotherDefaultHandler>();
-            var builder = configurator.Build(autofacRegistrator.CreateResolver());
-            var subscriber = builder.GetSubscriber();
-            subscriber.Subscribe<DefaultHandler, DomainMessage>();
-            subscriber.Subscribe<AnotherDefaultHandler, AnotherDomainMessage>();
+            var containerBuilder = new ContainerBuilder();
 
-            var mongoMessageListener = builder.GetListener();
-            mongoMessageListener.Start(route, CancellationToken.None).Wait();
+            new QueueBuilder()
+                .AddRegistrator<LegacyMessagingDependencyRegistrator>()
+                .AddHandler<DefaultHandler, DomainMessage>()
+                .AddHandler<AnotherDefaultHandler, AnotherDomainMessage>()
+                .AddResolver()
+                .AddAutofac(containerBuilder)
+                .Build();
+
+            var container = containerBuilder.Build();
+            container.Resolve<QueueProvider>().Listen(route, CancellationToken.None).Wait();
+
             Console.WriteLine($"started listener {route}");
             Console.ReadLine();
         }

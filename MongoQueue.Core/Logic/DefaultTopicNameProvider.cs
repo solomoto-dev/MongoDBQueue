@@ -1,4 +1,5 @@
-﻿using MongoQueue.Core.LogicAbstractions;
+﻿using System;
+using MongoQueue.Core.LogicAbstractions;
 
 namespace MongoQueue.Core.Logic
 {
@@ -6,7 +7,12 @@ namespace MongoQueue.Core.Logic
     {
         public virtual string Get<TMessage>()
         {
-            return typeof(TMessage).Name;
+            return Get(typeof(TMessage));
+        }
+
+        public virtual string Get(Type message)
+        {
+            return message.Name;
         }
     }
 }

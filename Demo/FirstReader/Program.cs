@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using Autofac;
 using MongoQueue;
 using MongoQueue.Autofac;
 using MongoQueue.Core;
@@ -17,16 +18,17 @@ namespace MongoQueueReader
                 route = args[0];
             }
 
-            var autofacRegistrator = new AutofacRegistrator();
-            var configurator = new QueueConfigurator(autofacRegistrator, new MessagingDependencyRegistrator())
-                .RegisterHandler<DefaultHandler>();
-            var builder = configurator.Build(autofacRegistrator.CreateResolver());
+            var containerBuilder = new ContainerBuilder();
 
-            var subscriber = builder.GetSubscriber();
-            subscriber.Subscribe<DefaultHandler, DomainMessage>();
-
-            var mongoMessageListener = builder.GetListener();
-            mongoMessageListener.Start(route, CancellationToken.None).Wait();
+            new QueueBuilder()
+                .AddRegistrator<MessagingDependencyRegistrator>()
+                .AddHandler<DefaultHandler, DomainMessage>()
+                .AddResolver()
+                .AddAutofac(containerBuilder)
+                .Build();
+            var container = containerBuilder.Build();
+            var queue = container.Resolve<QueueProvider>();
+            queue.Listen(route, CancellationToken.None).Wait();            
             Console.WriteLine($"started listener {route}");
             Console.ReadLine();
         }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Autofac;
 using MongoQueue.Autofac;
-using MongoQueue.Core;
 using MongoQueue.Legacy;
+using MongoQueue.Core;
 
 namespace LegacyWriter
 {
@@ -15,10 +16,15 @@ namespace LegacyWriter
 
         static async Task DoStuff()
         {
-            var autofacRegistrator = new AutofacRegistrator();
-            var configurator = new QueueConfigurator(autofacRegistrator, new LegacyMessagingDependencyRegistrator());
-            var builder = configurator.Build(autofacRegistrator.CreateResolver());
-            var publisher = builder.GetPublisher();
+            var containerBuilder = new ContainerBuilder();
+
+            new QueueBuilder()
+                .AddRegistrator<LegacyMessagingDependencyRegistrator>()
+                .AddResolver()
+                .AddAutofac(containerBuilder)
+                .Build();
+            var container = containerBuilder.Build();
+            var publisher = container.Resolve<QueueProvider>().GetPublisher();
             while (true)
             {
                 try

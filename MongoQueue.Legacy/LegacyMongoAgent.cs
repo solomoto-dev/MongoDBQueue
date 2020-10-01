@@ -1,5 +1,8 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using System.Net.Sockets;
+using MongoDB.Driver;
 using MongoQueue.Core.Entities;
+using MongoQueue.Core.Exceptions;
 using MongoQueue.Core.IntegrationAbstractions;
 
 namespace MongoQueue.Legacy
@@ -13,14 +16,33 @@ namespace MongoQueue.Legacy
         {
             _messagingConfiguration = messagingConfiguration;
             _dbName = _messagingConfiguration.Database;
+            _db = new Lazy<MongoDatabase>(GetDb);
         }
-        public MongoDatabase GetDb()
+
+        private readonly Lazy<MongoDatabase> _db;
+        public MongoDatabase Db => _db.Value;
+
+        private MongoDatabase GetDb()
         {
             var mongoUrl = MongoUrl.Create(_messagingConfiguration.ConnectionString);
             var settings = MongoClientSettings.FromUrl(mongoUrl);
             settings.WriteConcern = WriteConcern.Acknowledged;
             var client = new MongoClient(settings);
-            return client.GetServer().GetDatabase(_dbName);
+            var server = client.GetServer();
+            Ping(server);
+            return server.GetDatabase(_dbName);
+        }
+
+        private static void Ping(MongoServer server)
+        {
+            try
+            {
+                server.Ping();
+            }
+            catch (SocketException)
+            {
+                throw new QueueConfigurationException();
+            }
         }
 
         public MongoCollection<Subscriber> GetSubscribers()
@@ -31,7 +53,7 @@ namespace MongoQueue.Legacy
         public MongoCollection<TDocument> GetCollection<TDocument>(string name = null)
         {
             name = name ?? typeof(TDocument).Name;
-            var db = GetDb();
+            var db = Db;
             return db.GetCollection<TDocument>(name, new MongoCollectionSettings
             {
                 WriteConcern = WriteConcern.Acknowledged

@@ -36,7 +36,10 @@ namespace MongoQueue.Legacy
                 Query<Envelope>.EQ(x => x.IsProcessed, false)
             );
             var notProcessed = collection.Find(notProcessedQuery).ToList();
-            _messagingLogger.Debug($"got {notProcessed.Count} unprocessed messages to resend");
+            if (notProcessed.Count > 0)
+            {
+                _messagingLogger.Debug($"got {notProcessed.Count} unprocessed messages to resend");
+            }
             return notProcessed;
         }
 

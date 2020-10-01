@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using Autofac;
 using MongoQueue.Core.IntegrationAbstractions;
-using MongoQueue.Core.IoC;
 using MongoQueue.Core.LogicAbstractions;
 using Newtonsoft.Json;
 
@@ -38,11 +36,10 @@ namespace MongoQueue.Core.Logic
             {
                 using (var scope = _instanceResolver.CreateLifeTimeScope())
                 {
-                    scope.Resolve<ICurrentHandlerScopeHolder>().Init(scope);
                     var type = _messageTypesCache.Get(topic);
                     var message = JsonConvert.DeserializeObject(payload, type);
                     var handlerType = _messageHandlersCache.Get(topic);
-                    var handlerInstance = (IHandler)scope.Resolve(handlerType);
+                    var handlerInstance = (IHandler)scope.ServiceProvider.GetService(handlerType);
                     await handlerInstance.Handle(route, messageId, message, resend, cancellationToken);
                 }
             }

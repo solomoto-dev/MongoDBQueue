@@ -1,4 +1,5 @@
-﻿using MongoQueue.Core.LogicAbstractions;
+﻿using System;
+using MongoQueue.Core.LogicAbstractions;
 
 namespace MongoQueue.Core.Logic
 {
@@ -17,6 +18,12 @@ namespace MongoQueue.Core.Logic
         {
             _messageTypesCache.Register<TMessage>();
             _messageHandlersCache.Register<THandler, TMessage>();
+        }
+
+        public void Subscribe(Type handler, Type message)
+        {
+            _messageTypesCache.Register(message);
+            _messageHandlersCache.Register(handler, message);
         }
     }
 }

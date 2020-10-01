@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using MongoQueue.Core;
 using MongoQueue.Core.AgentAbstractions;
 
@@ -6,17 +7,17 @@ namespace MongoQueue.Legacy
 {
     public class LegacyMessagingDependencyRegistrator : IMessagingDependencyRegistrator
     {
-        public void RegisterDefault(IRegistrator registrator)
+        public void RegisterDefault(IServiceCollection registrator)
         {
-            registrator.Register<IMessageStatusManager, LegacyMessageStatusManager>();
-            registrator.Register<IListeningAgent, LegacyListeningAgent>();
-            registrator.Register<IUnprocessedMessagesAgent, LegacyUnprocessedMessagesAgent>();
-            registrator.Register<IDocumentMappingInitializer, DocumentMappingInitializer>();
-            registrator.Register<ISubscriptionAgent, LegacySubscriptionAgent>();
-            registrator.Register<IPublishingAgent, LegacyPublishingAgent>();
-            registrator.Register<IDeadLettersAgent, LegacyDeadLettersAgent>();
-            registrator.Register<ICollectionCreator, LegacyCollectionCreator>();
-            registrator.Register<LegacyMongoAgent>();
+            registrator.AddScoped<IMessageStatusManager, LegacyMessageStatusManager>();
+            registrator.AddScoped<IListeningAgent, LegacyListeningAgent>();
+            registrator.AddScoped<IUnprocessedMessagesAgent, LegacyUnprocessedMessagesAgent>();
+            registrator.AddScoped<IDocumentMappingInitializer, DocumentMappingInitializer>();
+            registrator.AddScoped<ISubscriptionAgent, LegacySubscriptionAgent>();
+            registrator.AddScoped<IPublishingAgent, LegacyPublishingAgent>();
+            registrator.AddScoped<IDeadLettersAgent, LegacyDeadLettersAgent>();
+            registrator.AddScoped<ICollectionCreator, LegacyCollectionCreator>();
+            registrator.AddScoped<LegacyMongoAgent>();
             IdGenerator.SetGenerator(() => ObjectId.GenerateNewId().ToString());
             new CoreMessagingDependencyRegistrator().RegisterDefault(registrator);
         }
