@@ -17,7 +17,7 @@ namespace MongoQueue.Legacy
         {
             _mongoAgent = mongoAgent;
         }
-        public async Task<DeadLetter[]> GetDeadLetters(string route, string topic, CancellationToken cancellationToken)
+        public Task<DeadLetter[]> GetDeadLetters(string route, string topic, CancellationToken cancellationToken)
         {
             var find = Query.And(Query<DeadLetter>.EQ(l => l.Topic, topic),
                 Query<DeadLetter>.NotIn(l => l.ResentTo, new[] { route }));
@@ -26,15 +26,16 @@ namespace MongoQueue.Legacy
             var deadLetters = collection.Find(find).ToList();
             var ids = deadLetters.Select(l => l.Id).ToArray();
             collection.Update(Query<DeadLetter>.In(l => l.Id, ids), update, UpdateFlags.Multi);
-            return deadLetters.ToArray();
+            return Task.FromResult(deadLetters.ToArray());
         }
 
-        public async Task PublishAsync(string topic, string payload)
+        public Task PublishAsync(string topic, string payload, Ack ack = Ack.Master)
         {
-            Publish(topic, payload);
+            Publish(topic, payload, ack);
+            return Task.CompletedTask;
         }
 
-        public void Publish(string topic, string payload)
+        public void Publish(string topic, string payload, Ack ack = Ack.Master)
         {
             var collection = _mongoAgent.GetCollection<DeadLetter>();
             collection.Insert(new DeadLetter
@@ -43,7 +44,7 @@ namespace MongoQueue.Legacy
                 ResentTo = new string[0],
                 Payload = payload,
                 Topic = topic
-            });
+            }, ack.ToWriteConcern());
         }
     }
 }
