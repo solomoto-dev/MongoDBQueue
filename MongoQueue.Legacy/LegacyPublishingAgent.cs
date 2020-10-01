@@ -12,15 +12,16 @@ namespace MongoQueue.Legacy
         {
             _mongoAgent = mongoAgent;
         }
-        public void PublishToSubscriber(string subscriberName, string topic, string payload)
+        public void PublishToSubscriber(string subscriberName, string topic, string payload, Ack ack = Ack.Master)
         {
             var collection = _mongoAgent.GetEnvelops(subscriberName);
-            collection.Insert(new Envelope(topic, payload));
+            collection.Insert(new Envelope(topic, payload), ack.ToWriteConcern());
         }
 
-        public async Task PublishToSubscriberAsync(string subscriberName, string topic, string payload)
+        public Task PublishToSubscriberAsync(string subscriberName, string topic, string payload, Ack ack = Ack.Master)
         {
-            PublishToSubscriber(subscriberName, topic, payload);
+            PublishToSubscriber(subscriberName, topic, payload, ack);
+            return Task.CompletedTask;
         }
     }
 }

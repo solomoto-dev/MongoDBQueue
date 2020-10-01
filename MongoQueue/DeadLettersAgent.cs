@@ -31,9 +31,11 @@ namespace MongoQueue
             return deadLetters.ToArray();
         }
 
-        public async Task PublishAsync(string topic, string payload)
+        public async Task PublishAsync(string topic, string payload, Ack ack = Ack.Master)
         {
-            var collection = _agent.GetCollection<DeadLetter>();
+            var collection = _agent
+                .GetCollection<DeadLetter>()
+                .WithWriteConcern(ack.ToWriteConcern());
             await collection.InsertOneAsync(new DeadLetter
             {
                 Id = IdGenerator.GetId(),
@@ -43,9 +45,12 @@ namespace MongoQueue
             });
         }
 
-        public void Publish(string topic, string payload)
+        public void Publish(string topic, string payload, Ack ack = Ack.Master)
         {
-            var collection = _agent.GetCollection<DeadLetter>();
+            var collection = _agent
+                .GetCollection<DeadLetter>()
+                .WithWriteConcern(ack.ToWriteConcern());
+
             collection.InsertOne(new DeadLetter
             {
                 Id = IdGenerator.GetId(),

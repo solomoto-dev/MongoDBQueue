@@ -13,15 +13,21 @@ namespace MongoQueue
             _mongoAgent = mongoAgent;
         }
 
-        public void PublishToSubscriber(string subscriberName,string topic, string payload)
+        public void PublishToSubscriber(string subscriberName,string topic, string payload, Ack ack = Ack.Master)
         {
-            var collection = _mongoAgent.GetEnvelops(subscriberName);
+            var collection = _mongoAgent
+                .GetEnvelops(subscriberName)
+                .WithWriteConcern(ack.ToWriteConcern());
+
             collection.InsertOne(new Envelope(topic, payload));
         }
 
-        public async Task PublishToSubscriberAsync(string subscriberName, string topic, string payload)
+        public async Task PublishToSubscriberAsync(string subscriberName, string topic, string payload, Ack ack = Ack.Master)
         {
-            var collection = _mongoAgent.GetEnvelops(subscriberName);
+            var collection = _mongoAgent
+                .GetEnvelops(subscriberName)
+                .WithWriteConcern(ack.ToWriteConcern());
+
             await collection.InsertOneAsync(new Envelope(topic, payload));
         }
     }
